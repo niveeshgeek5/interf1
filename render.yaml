@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: technovanza-chatbot-api
+    runtime: node
+    rootDir: chatbot-backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_ORIGIN
+        fromService:
+          type: web
+          name: technovanza-2026
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: OPENAI_API_KEY
+        sync: false
+
+  - type: web
+    name: technovanza-2026
+    runtime: static
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_CHATBOT_API_URL
+        fromService:
+          type: web
+          name: technovanza-chatbot-api
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
