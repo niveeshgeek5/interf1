@@ -24,6 +24,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
@@ -464,6 +465,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 0;
 }
 
 .hero h1 {
@@ -473,6 +475,7 @@ nav {
   margin-bottom: 6px;
   line-height: 1;
   position: relative;
+  overflow-wrap: anywhere;
 }
 
 .hero h1 .tech {
@@ -613,6 +616,7 @@ nav {
 .glitch-wrapper, .glitch-text {
   position: relative;
   display: inline-block;
+  max-width: 100%;
 }
 
 .glitch-text:before, .glitch-text:after {
@@ -709,7 +713,8 @@ nav {
 }
 
 .event-card {
-  height: 380px;
+  min-height: 380px;
+  height: 100%;
   position: relative;
   border-radius: 16px;
   cursor: pointer;
@@ -723,7 +728,8 @@ nav {
 
 .event-card-wrapper {
   position: relative;
-  height: 380px;
+  min-height: 380px;
+  height: 100%;
   border-radius: 16px;
   perspective: 1500px;
 }
@@ -758,6 +764,7 @@ nav {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
 .card-front {
@@ -1301,6 +1308,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-width: 0;
 }
 
 .coord-name {
@@ -1321,6 +1329,7 @@ nav {
   line-height: 1.5;
   justify-content: center;
   align-items: center;
+  overflow-wrap: anywhere;
 }
 
 .coord-divider {
@@ -1443,6 +1452,7 @@ nav {
   justify-content: flex-end;
   flex: 1;
   min-width: 200px;
+  min-width: 0;
 }
 
 .reg-contact-item {
@@ -1457,6 +1467,7 @@ nav {
   text-decoration: none;
   transition: border-color 0.2s, background 0.2s;
   min-width: 110px;
+  flex: 1 1 130px;
 }
 
 a.reg-contact-item:hover {
@@ -1512,6 +1523,7 @@ a.reg-contact-item:hover {
   font-size: 14px;
   z-index: 1;
   min-width: 180px;
+  overflow-wrap: anywhere;
 }
 
 .venue-info-block span {
@@ -1622,6 +1634,10 @@ footer .foot-tag {
 }
 
 @media (max-width: 768px) {
+  .nav-wrap {
+    min-height: 62px;
+    padding: 12px 16px;
+  }
   .nav-links {
     position: absolute;
     top: 62px;
@@ -1643,10 +1659,25 @@ footer .foot-tag {
     pointer-events: auto;
   }
   .nav-toggle { display: block; }
-  .hero h1 { letter-spacing: -1px; }
-  .developer-animation { height: clamp(160px, 40vw, 220px); }
+  .hero {
+    min-height: auto;
+    padding: 92px 16px 42px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 10.5vw, 3.2rem);
+    letter-spacing: 0;
+    line-height: 1.05;
+  }
+  .college-line,
+  .desc {
+    padding: 0;
+  }
+  .developer-animation {
+    height: clamp(150px, 50vw, 230px);
+    margin: 20px auto;
+  }
   .event-grid { grid-template-columns: 1fr; gap: 30px; }
-  .event-card, .event-card-wrapper { height: 400px; }
+  .event-card, .event-card-wrapper { min-height: 390px; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .divider-label:before, .divider-label:after { width: 15%; }
   .coord-top-row, .coord-bottom-row, .contact-grid { grid-template-columns: 1fr; }
@@ -1658,22 +1689,77 @@ footer .foot-tag {
 }
 
 @media (max-width: 480px) {
-  .hero { padding-top: 90px; }
-  .hero h1 { font-size: 1.9rem; letter-spacing: -0.5px; }
+  .intro-title-text {
+    font-size: clamp(1.65rem, 10vw, 2.45rem);
+    letter-spacing: 0.02em;
+  }
+  .intro-welcome-stage,
+  .intro-welcome-card {
+    width: min(90vw, 360px);
+  }
+  .intro-welcome-stage h1,
+  .intro-welcome-card h1 {
+    font-size: clamp(1.8rem, 10vw, 2.6rem);
+    line-height: 1.05;
+  }
+  .intro-welcome-kicker {
+    letter-spacing: 0.1em;
+  }
+  .hero { padding: 84px 14px 34px; }
+  .hero h1 { font-size: clamp(1.9rem, 11vw, 2.55rem); letter-spacing: 0; }
   .hero-cta .btn, .hero-cta .btn-outline { width: 100%; text-align: center; }
   .hero-cta { flex-direction: column; width: 100%; }
   .badge { font-size: 11px; padding: 8px 14px; }
-  .developer-animation { height: 150px; }
+  .developer-animation { height: 142px; }
   .section-head h2 { font-size: 1.6rem; }
-  .section { padding-top: 44px; }
+  .section {
+    padding: 42px 14px 28px;
+  }
+  .section-head {
+    margin-bottom: 28px;
+  }
+  .section-head p {
+    font-size: 14px;
+  }
   .event-grid { grid-template-columns: 1fr; gap: 20px; }
-  .event-card, .event-card-wrapper { height: 420px; }
+  .event-card, .event-card-wrapper { min-height: 430px; }
+  .card-top-strip { height: 82px; }
+  .card-icon-circle {
+    width: 48px;
+    height: 48px;
+    bottom: -20px;
+    left: 16px;
+  }
+  .card-body { padding: 34px 16px 18px; }
+  .card-body h3 { font-size: 20px; }
+  .card-cat { font-size: 10px; }
+  .participant-pill { font-size: 9px; }
+  .card-teaser { font-size: 13px; }
+  .card-back {
+    padding: 20px 16px 16px;
+  }
+  .rules-list {
+    font-size: 12px;
+    line-height: 1.52;
+  }
   .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .stat-box { padding: 20px 12px; }
   .stat-box .num { font-size: 1.6rem; }
   .coord-container { padding: 14px; }
   .coord-top-row, .coord-bottom-row { grid-template-columns: 1fr; gap: 14px; }
   .coord-card { padding: 18px 16px; }
+  .coord-member {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .coord-designation {
+    text-align: center;
+  }
+  .hod-lines li {
+    font-size: 12px;
+    line-height: 1.55;
+  }
   .coord-name { font-size: 15px; }
   .coord-name--hod { font-size: 18px; }
   .coord-avatar--hod { width: 66px; height: 66px; font-size: 24px; }
@@ -1681,16 +1767,32 @@ footer .foot-tag {
   .about-container { padding: 16px; }
   .about-wrap { grid-template-columns: 1fr; gap: 24px; }
   .contact-card, .venue-box { padding: 20px; }
-  .reg-help-banner { padding: 14px; }
+  .reg-help-banner { padding: 14px; gap: 12px; }
   .reg-help-contacts { gap: 8px; }
-  .reg-contact-item { min-width: 90px; padding: 8px 12px; }
+  .reg-contact-item {
+    min-width: 0;
+    flex: 1 1 calc(50% - 8px);
+    padding: 9px 8px;
+  }
+  .reg-contact-name,
+  .reg-help-title {
+    font-size: 12px;
+  }
+  .venue-box {
+    gap: 20px;
+  }
+  .venue-info-block {
+    min-width: 0;
+    width: 100%;
+    font-size: 12px;
+  }
   .map-frame-wrap iframe { height: 240px; }
   .divider-label { margin: 60px 0 40px; }
   footer { padding: 40px 16px 30px; }
 }
 
 @media (max-width: 360px) {
-  .hero h1 { font-size: 1.6rem; }
+  .hero h1 { font-size: 1.75rem; }
   .logo { font-size: 15px; }
   .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .reg-help-contacts { flex-direction: column; align-items: stretch; }
@@ -1725,5 +1827,3 @@ footer .foot-tag {
 .intro-welcome-stage h1 span {
   color: #ef4444;
 }
-
-.intro-welcome-card { display: none; }

@@ -420,7 +420,7 @@ export default function App() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="glitch-wrapper">
-              <span className="glitch-tet" data-text="TECHNOVANZA 2026">
+              <span className="glitch-text" data-text="TECHNOVANZA 2026">
                 TECHNO<span className="tech">VANZA</span> 2026
               </span>
             </h1>
@@ -665,7 +665,7 @@ export default function App() {
                 Dept. of Computer Science & Engineering
               </div>
               <ul className="hod-lines">
-                <li>Welcome to CSE Symposium 2026! This event is a platform forstudents to Showcase their technical prowess and creative thinking.I encourage every student to participating and make the most of this opportunity</li>
+                <li>Welcome to CSE Symposium 2026! This event is a platform for students to showcase their technical prowess and creative thinking. I encourage every student to participate and make the most of this opportunity.</li>
                 
               </ul>
               <div className="hod-quote-mark">"</div>
@@ -716,7 +716,7 @@ export default function App() {
                   {/* <div className="coord-avatar coord-avatar--sm">M</div> */}
                   <div>
                     <div className="coord-name">A.V. Lekka</div>
-                    <div className="coord-designation"> Student Co-ordinator Contact number:9842154992</div>
+                    <div className="coord-designation">Student Co-ordinator · Contact: 9842154992</div>
                   </div>
                 </div>
                 <div className="coord-divider" />
@@ -724,7 +724,7 @@ export default function App() {
                   {/* <div className="coord-avatar coord-avatar--sm">N</div> */}
                   <div>
                     <div className="coord-name">S.Vijay Narayan</div>
-                    <div className="coord-designation"> Student Co-ordinator Contact Number:8668052217</div>
+                    <div className="coord-designation">Student Co-ordinator · Contact: 8668052217</div>
                   </div>
                 </div>
               </div>

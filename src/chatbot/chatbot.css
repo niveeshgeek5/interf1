@@ -302,34 +302,80 @@
 
 @media (max-width: 640px) {
   .symbot-shell {
-    right: 10px;
-    bottom: 10px;
+    right: 8px;
+    bottom: 8px;
   }
 
   .symbot-robot-button {
-    width: 92px;
-    height: 138px;
+    width: 78px;
+    height: 116px;
   }
 
   .symbot-help-bubble {
-    top: -18px;
-    right: 4px;
+    top: -15px;
+    right: 2px;
     padding: 5px 9px;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .symbot-window {
     position: fixed;
-    right: 10px;
-    left: 10px;
-    bottom: 138px;
+    right: 8px;
+    left: 8px;
+    bottom: 116px;
     width: auto;
-    height: min(510px, calc(100svh - 176px));
-    min-height: 340px;
+    height: min(500px, calc(100svh - 136px));
+    min-height: 300px;
+    border-radius: 14px;
+  }
+
+  .symbot-window-header {
+    padding: 12px;
+  }
+
+  .symbot-window-title h2 {
+    font-size: 14px;
+  }
+
+  .symbot-window-title p {
+    font-size: 10px;
+  }
+
+  .symbot-messages {
+    padding: 12px;
+    gap: 10px;
   }
 
   .symbot-message-bubble {
-    max-width: 92%;
-    font-size: 13px;
+    max-width: 94%;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .symbot-input-area {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .symbot-input-area input,
+  .symbot-input-area button {
+    height: 40px;
+  }
+}
+
+@media (max-width: 380px) {
+  .symbot-robot-button {
+    width: 68px;
+    height: 102px;
+  }
+
+  .symbot-help-bubble {
+    transform: scale(0.92);
+    transform-origin: right bottom;
+  }
+
+  .symbot-window {
+    bottom: 104px;
   }
 }
