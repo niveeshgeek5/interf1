@@ -4,6 +4,7 @@
   bottom: clamp(16px, 4vw, 34px);
   z-index: 80;
   font-family: 'Space Grotesk', sans-serif;
+  max-width: calc(100vw - 16px);
 }
 
 .symbot-robot-button {
@@ -304,6 +305,8 @@
   .symbot-shell {
     right: 8px;
     bottom: 8px;
+    max-width: calc(100vw - 16px);
+    overflow: visible;
   }
 
   .symbot-robot-button {
@@ -327,6 +330,7 @@
     height: min(500px, calc(100svh - 136px));
     min-height: 300px;
     border-radius: 14px;
+    max-width: calc(100vw - 16px);
   }
 
   .symbot-window-header {

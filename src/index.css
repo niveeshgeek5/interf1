@@ -25,15 +25,26 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
   font-family: 'Space Grotesk', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body:before {
@@ -50,6 +61,10 @@ body:before {
 img, video, iframe, svg {
   max-width: 100%;
   display: block;
+}
+
+canvas {
+  max-width: 100vw;
 }
 
 .mono {
@@ -331,7 +346,7 @@ a:focus-visible, button:focus-visible, .flip-card:focus-visible, div[role=button
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   z-index: -2;
   pointer-events: none;
@@ -339,8 +354,8 @@ a:focus-visible, button:focus-visible, .flip-card:focus-visible, div[role=button
 
 .glow-bg {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: min(600px, 92vw);
+  height: min(600px, 92vw);
   background: radial-gradient(circle, rgba(220, 38, 38, 0.15), transparent);
   filter: blur(100px);
   z-index: -1;
@@ -350,6 +365,7 @@ a:focus-visible, button:focus-visible, .flip-card:focus-visible, div[role=button
 nav {
   position: fixed;
   width: 100%;
+  max-width: 100vw;
   top: 0;
   z-index: 50;
   background: rgba(3, 3, 3, 0.92);
@@ -666,6 +682,7 @@ nav {
 .section {
   padding: clamp(50px, 8vw, 80px) clamp(16px, 5%, 60px) 40px;
   max-width: 1300px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -710,6 +727,7 @@ nav {
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   perspective: 1500px;
+  width: 100%;
 }
 
 .event-card {
@@ -1634,15 +1652,33 @@ footer .foot-tag {
 }
 
 @media (max-width: 768px) {
+  body {
+    touch-action: pan-y;
+  }
+
+  #root,
+  main,
+  section,
+  nav,
+  footer {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
   .nav-wrap {
     min-height: 62px;
     padding: 12px 16px;
+    width: 100%;
+    max-width: 100vw;
   }
   .nav-links {
     position: absolute;
     top: 62px;
     left: 0;
     right: 0;
+    width: 100%;
+    max-width: 100vw;
     background: rgba(3, 3, 3, 0.98);
     flex-direction: column;
     padding: 24px clamp(16px, 5%, 40px);
@@ -1662,6 +1698,9 @@ footer .foot-tag {
   .hero {
     min-height: auto;
     padding: 92px 16px 42px;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
   }
   .hero h1 {
     font-size: clamp(2rem, 10.5vw, 3.2rem);
@@ -1673,14 +1712,38 @@ footer .foot-tag {
     padding: 0;
   }
   .developer-animation {
+    width: 100%;
+    max-width: 420px;
     height: clamp(150px, 50vw, 230px);
     margin: 20px auto;
   }
-  .event-grid { grid-template-columns: 1fr; gap: 30px; }
-  .event-card, .event-card-wrapper { min-height: 390px; }
+  .event-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+    justify-items: center;
+    margin-inline: auto;
+  }
+  .event-card, .event-card-wrapper {
+    min-height: 390px;
+    width: 100%;
+    max-width: 430px;
+  }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .divider-label:before, .divider-label:after { width: 15%; }
-  .coord-top-row, .coord-bottom-row, .contact-grid { grid-template-columns: 1fr; }
+  .coord-top-row, .coord-bottom-row, .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .about-container,
+  .coord-container,
+  .contact-card,
+  .venue-box,
+  .reg-help-banner,
+  .map-container {
+    width: 100%;
+    max-width: 560px;
+    margin-inline: auto;
+  }
   .map-frame-wrap iframe { height: 280px; }
   .about-container { padding: 20px; }
   .reg-help-banner { flex-direction: column; align-items: flex-start; }
@@ -1706,6 +1769,11 @@ footer .foot-tag {
     letter-spacing: 0.1em;
   }
   .hero { padding: 84px 14px 34px; }
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
   .hero h1 { font-size: clamp(1.9rem, 11vw, 2.55rem); letter-spacing: 0; }
   .hero-cta .btn, .hero-cta .btn-outline { width: 100%; text-align: center; }
   .hero-cta { flex-direction: column; width: 100%; }
@@ -1713,7 +1781,9 @@ footer .foot-tag {
   .developer-animation { height: 142px; }
   .section-head h2 { font-size: 1.6rem; }
   .section {
-    padding: 42px 14px 28px;
+    padding: 42px 12px 28px;
+    width: 100%;
+    max-width: 100vw;
   }
   .section-head {
     margin-bottom: 28px;
@@ -1721,8 +1791,16 @@ footer .foot-tag {
   .section-head p {
     font-size: 14px;
   }
-  .event-grid { grid-template-columns: 1fr; gap: 20px; }
-  .event-card, .event-card-wrapper { min-height: 430px; }
+  .event-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+  .event-card, .event-card-wrapper {
+    min-height: 430px;
+    width: 100%;
+    max-width: 350px;
+  }
   .card-top-strip { height: 82px; }
   .card-icon-circle {
     width: 48px;
@@ -1788,7 +1866,12 @@ footer .foot-tag {
   }
   .map-frame-wrap iframe { height: 240px; }
   .divider-label { margin: 60px 0 40px; }
-  footer { padding: 40px 16px 30px; }
+  footer {
+    width: 100%;
+    max-width: 100vw;
+    padding: 40px 16px 30px;
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 360px) {
