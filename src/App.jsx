@@ -420,7 +420,7 @@ export default function App() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="glitch-wrapper">
-              <span className="glitch-text" data-text="TECHNOVANZA 2026">
+              <span className="glitch-tet" data-text="TECHNOVANZA 2026">
                 TECHNO<span className="tech">VANZA</span> 2026
               </span>
             </h1>
