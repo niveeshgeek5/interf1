@@ -425,7 +425,7 @@ export default function App() {
               </span>
             </h1>
             <p className="college-line">
-              <b>Anjalai Ammal Mahalingam Engineering College</b>
+              <b>Anjalai Ammal-Mahalingam Engineering College</b>
             </p>
             <p className="desc">Department of Computer Science & Engineering</p>
           </motion.div>
