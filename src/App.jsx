@@ -497,7 +497,17 @@ export default function App() {
             transition={{ delay: 0.8 }}
             className="hero-cta"
           >
-            <a href="#contact" className="btn">Download the Rules (PDF)</a>
+          
+
+ <a
+    href="https://drive.google.com/uc?export=download&id=1kMASTsMoP74v5S7_9RdRjGPCLFH2ygEA"
+    className="btn"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Download the Rules (PDF)
+  </a>
+  
             {/* <a href="#technical" className="btn-outline">View Events</a> */}
           </motion.div>
         </div>
