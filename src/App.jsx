@@ -11,25 +11,9 @@ import IntroSplash from './IntroSplash.jsx';
 // --- Data definitions matching exact Replit source ---
 
 const technicalEvents = [
+ 
   {
     num: "01",
-    title: "WebNova",
-    icon: <Globe size={24} />,
-    category: "Frontend Web Development",
-    participants: "Official Slot",
-    teamSize: "Individual",
-    teaser: "Build a responsive website using HTML, CSS, JavaScript, Bootstrap, or Tailwind CSS within the given time.",
-    rules: [
-      "Individual participation only.",
-      "Development tool: Visual Studio Code only.",
-      "Mobile phones and AI tools are strictly prohibited.",
-      "Browser extensions, templates, pre-built code, and frameworks are not allowed except Bootstrap and Tailwind CSS.",
-      "Evaluation is based on creativity, UI/UX, responsiveness, HTML/CSS/JS implementation, code quality, and functionality."
-    ],
-    organiser: "M.Madhavan - 9600496137"
-  },
-  {
-    num: "02",
     title: "TechTalks",
     icon: <FileText size={24} />,
     category: "Technical Presentation",
@@ -46,7 +30,24 @@ const technicalEvents = [
       "Evaluation Criteria Problem Statement & Relevance Technical Depth & Innovation Prototype Quality & Execution Presentation Skills & Slide Quality Q&A Response Time Management Key Rules Report 10 minutes before the event.",
       "Bring PPT & demo backups on a USB drive. Plagiarism results in instant disqualification. Judges' decisions are final."
     ],
-    organiser: "K.S.Shanugapriyan - 6379305096"
+    organiser: "K.S.Shanmugapriyan - 6379305096"
+  },
+   {
+    num: "02",
+    title: "WebNova",
+    icon: <Globe size={24} />,
+    category: "Frontend Web Development",
+    participants: "Official Slot",
+    teamSize: "Individual",
+    teaser: "Build a responsive website using HTML, CSS, JavaScript, Bootstrap, or Tailwind CSS within the given time.",
+    rules: [
+      "Individual participation only.",
+      "Development tool: Visual Studio Code only.",
+      "Mobile phones and AI tools are strictly prohibited.",
+      "Browser extensions, templates, pre-built code, and frameworks are not allowed except Bootstrap and Tailwind CSS.",
+      "Evaluation is based on creativity, UI/UX, responsiveness, HTML/CSS/JS implementation, code quality, and functionality."
+    ],
+    organiser: "M.Madhavan - 9600496137"
   },
   {
     num: "03",
@@ -496,7 +497,7 @@ export default function App() {
             transition={{ delay: 0.8 }}
             className="hero-cta"
           >
-            <a href="#contact" className="btn">Download the Rules PDF</a>
+            <a href="#contact" className="btn">Download the Rules (PDF)</a>
             {/* <a href="#technical" className="btn-outline">View Events</a> */}
           </motion.div>
         </div>
@@ -686,7 +687,7 @@ export default function App() {
                 <div className="coord-member">
                   {/* <div className="coord-avatar coord-avatar--sm">M</div> */}
                   <div>
-                    <div className="coord-name">Mr.P.ManikandaPrabhu</div>
+                    <div className="coord-name">Mr.P.Manikanda Prabu</div>
                     <div className="coord-designation">Assistant Professor, CSE Department</div>
                   </div>
                 </div>
@@ -714,7 +715,7 @@ export default function App() {
                 <div className="coord-member">
                   {/* <div className="coord-avatar coord-avatar--sm">M</div> */}
                   <div>
-                    <div className="coord-name">A.V. Lekka</div>
+                    <div className="coord-name">A.V. Lekaa</div>
                     <div className="coord-designation">Student Co-ordinator · Contact: 9842154992</div>
                   </div>
                 </div>
@@ -762,32 +763,32 @@ export default function App() {
           </div>
           <div className="reg-help-contacts">
             <a href="tel:+919600496137" className="reg-contact-item">
-              <span className="reg-contact-name">Madhavan</span>
+              <span className="reg-contact-name">M.Madhavan</span>
               <span className="reg-help-title">96004 96137</span>
             </a>
 
                 <a href="tel:+918637689191" className="reg-contact-item">
-              <span className="reg-contact-name">Niveesh</span>
+              <span className="reg-contact-name">R.Niveesh</span>
               <span className="reg-help-title">8637689191</span>
             </a>
            
                <a href="tel:+919042845757" className="reg-contact-item">
-              <span className="reg-contact-name">Naveen</span>
+              <span className="reg-contact-name">S.Naveen</span>
               <span className="reg-help-title">9042845757</span>
             </a>
 
             <a href="tel:+918124234995" className="reg-contact-item">
-              <span className="reg-contact-name">Vignesh</span>
+              <span className="reg-contact-name">S.Vignesh</span>
               <span className="reg-help-title">8124234995</span>
             </a>
 
             <a href="tel:+916379555905" className="reg-contact-item">
-              <span className="reg-contact-name">Kavinathan</span>
+              <span className="reg-contact-name">K.Kavinathan</span>
               <span className="reg-help-title">379555905</span>
             </a>
 
             <a href="tel:+918072022294" className="reg-contact-item">
-              <span className="reg-contact-name">Anwar</span>
+              <span className="reg-contact-name">S.Anwar</span>
               <span className="reg-help-title">8072022294</span>
             </a>
 
