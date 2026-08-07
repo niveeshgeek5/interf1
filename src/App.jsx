@@ -633,7 +633,7 @@ export default function App() {
             >
               <div className="coord-role-tag">Principal</div>
               {/* <div className="coord-avatar coord-avatar--principal">V</div> */}
-              <div className="coord-name">Mr.K.Velmurugan</div>
+              <div className="coord-name">Dr.K.Velmurugan</div>
     {/* starting quotes lines */}
       <div className="coord-designation coord-designation--dept">
                 Dept. of Computer Science & Engineering
