@@ -558,7 +558,7 @@ export default function App() {
         viewport={{ once: true }}
         style={{ textAlign: 'center', marginTop: '40px', marginBottom: '80px', position: 'relative', zIndex: 2 }}
       >
-        <a href="#contact" className="btn" style={{ padding: '14px 32px', fontSize: '16px' }}>
+        <a href="https://technovanza-2026-cex6.onrender.com/registration" className="btn" style={{ padding: '14px 32px', fontSize: '16px' }}>
           Register Now
         </a>
       </motion.div>
