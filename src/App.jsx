@@ -659,7 +659,7 @@ export default function App() {
               <div className="hod-glow-ring" />
               <div className="coord-role-tag coord-role-tag--hod">Head of Department</div>
               {/* <div className="coord-avatar coord-avatar--hod">V</div> */}
-              <div className="coord-name coord-name--hod">Mrs.T. Vigneswari</div>
+              <div className="coord-name coord-name--hod">Dr.T. Vigneswari</div>
               <div className="coord-designation coord-designation--dept">
                 Dept. of Computer Science & Engineering
               </div>
