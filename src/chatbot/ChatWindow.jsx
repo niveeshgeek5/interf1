@@ -52,7 +52,7 @@ export default function ChatWindow({ isOpen, onClose }) {
         {
           id: createMessageId(),
           role: 'bot',
-          text: data.answer || 'That information is not available in the provided symposium data.',
+          text: data.answer || "Sorry, I couldn't find that information in the TECHNOVANZA knowledge base.",
         },
       ]);
     } catch (error) {

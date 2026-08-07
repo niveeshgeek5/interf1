@@ -1,214 +1,216 @@
 TECHNOVANZA '26: Official Rulebook
 Anjalai Ammal Mahalingam Engineering College
 Kovilvenni, near Needamangalam, Thiruvarur
-COMPUTER SCIENCE AND ENGINEERING
-Welcome to TECHNOVANZA '26, the premier technical symposium of AAMEC, Thiruvarur. This
-rulebook outlines the guidelines, fee structures, and event-specific regulations to ensure a fair and
-competitive environment.
-II. Technical Events
+Computer Science and Engineering
+
+Welcome to TECHNOVANZA '26, the premier technical symposium of AAMEC, Thiruvarur.
+This rulebook outlines the guidelines and event-specific regulations to ensure a fair and competitive environment.
+
+I. Technical Events
+
 1. WebNova
 Mode: Individual
 Frontend Web Development
+
 Technologies Allowed
-• HTML – Structure
-• CSS – Styling & Design
-• JavaScript – Functionality & Responsiveness
-• Bootstrap and Tailwind CSS are allowed
+- HTML - Structure
+- CSS - Styling & Design
+- JavaScript - Functionality & Responsiveness
+- Bootstrap and Tailwind CSS are allowed
+
 Rules
-• Mobile phones and AI tools are strictly prohibited during the competition. Any participant found using
-them will be disqualified immediately.
-• The use of browser extensions, libraries, frameworks, templates, or pre-built code is not allowed,
-except Bootstrap and Tailwind CSS.
-• Participants must develop the website only using HTML, CSS, and JavaScript.
-• The website must be completed within the allotted time.
+- Mobile phones and AI tools are strictly prohibited during the competition.
+- Any participant found using mobile phones or AI tools will be disqualified immediately.
+- The use of browser extensions, libraries, frameworks, templates, or pre-built code is not allowed, except Bootstrap and Tailwind CSS.
+- Participants must develop the website only using HTML, CSS, and JavaScript.
+- The website must be completed within the allotted time.
+
 Evaluation Criteria
-• Creativity & UI/UX Design
-• Responsive Design (Mobile, Tablet & Desktop)
-• Implementation of HTML, CSS & JavaScript
-• Code Quality & Functionality
-Competition Details
-• Time Limit: 40 Minutes
-• Development Tool: Visual Studio Code (VS Code) Only
+- Creativity & UI/UX Design
+- Responsive Design for mobile, tablet, and desktop
+- Implementation of HTML, CSS, and JavaScript
+- Code Quality & Functionality
+
 2. TechTalks
-Eligibility
-• Open topic – Participants may choose any technical topic of their interest.
-• Team participation only – 2 members per team.
-• Selection Process: Not all teams will be allowed to present. Submission of PPT is mandatory for
-screening.
-Presentation Submission & Selection
-• The presentation (PPT) must be submitted 5 days before the event using the Google Drive link
-provided by the organizers.
-• The organizing team will review all submissions.
-• Only teams who receive a confirmation email will be allowed to present on the event day.
-• Late submissions will not be accepted. Failure to submit before the deadline will result in
-disqualification.
-PowerPoint Guidelines
-Presentation should contain 10–12 slides only and must include:
-• Title Slide – Team Details & Topic
-• Problem Statement
-• Abstract
-• Proposed Solution
-• Content Slides – Methodology, Results, etc.
-• Conclusion
-• Thank You Slide
-• Use clear fonts, proper formatting, and relevant visuals.
-• The presentation must be free from plagiarism.
-Prototype Requirement
-• Each team must present a working prototype/model/demo of their project on the day of presentation.
-• Teams without a prototype will be awarded reduced marks.
-Time Limit
-• Presentation: 7 Minutes
-• Question & Answer (Viva): 3 Minutes
-• Total Time: 10 Minutes
-• Exceeding the allotted time may lead to deduction of marks.
+Mode: Team, exactly 2 members
+
+Eligibility & Domains
+- Team: Exactly 2 members per team.
+- Domains: AI, ML, Digital Twin Technology, Cyber Security, Cloud & DevOps, IoT & Edge Computing, Blockchain, Full Stack Development, Data Science, Quantum Computing, or any other relevant technical domain chosen by the participants.
+
+Submission & Screening
+- Mandatory Submission: Submit the paper in IEEE format 5 days before the event using the provided Google Drive link for selection.
+- Drive link: https://drive.google.com/drive/folders/1WmAYChPlnLMkOuUfAd_x5fItuMN9VG9d?usp=sharing
+- Selection: Only pre-screened teams receiving a confirmation email may present.
+- No late submissions are allowed.
+
+PPT Format: 10-12 slides only
+- Title Slide with team details and topic
+- Problem Statement
+- Abstract
+- Existing System
+- Proposed Solution
+- Content Slides covering methodology, architecture, and results
+- Conclusion
+
+Prototype & Time Limits
+- Mandatory Prototype: Teams must bring a working prototype or demo.
+- Teams without a demo face severe mark deductions.
+- Time: 7 minutes presentation + 3 minutes Q&A = 10 minutes total.
+- Exceeding the time limit reduces marks.
+
 Evaluation Criteria
-• Problem Statement & Relevance
-• Technical Knowledge & Solution
-• Innovation & Creativity
-• Quality of Prototype/Demo
-• Content Quality & Presentation Skills
-• Response to Judges' Questions
-• Time Management
-General Rules
-• The decision of the judges will be final and binding.
-• Participants must report to the venue 30 minutes before the event starts.
-• Bring a backup copy of your presentation and prototype files on a pen drive.
-• Any form of plagiarism or inappropriate content will lead to immediate disqualification.
+- Problem Statement & Relevance
+- Technical Depth & Innovation
+- Prototype Quality & Execution
+- Presentation Skills & Slide Quality
+- Q&A Response
+- Time Management
+
+Key Rules
+- Report 10 minutes before the event.
+- Bring PPT and demo backups on a USB drive.
+- Plagiarism results in instant disqualification.
+
 3. Prompt Maestro
 Mode: Individual
-Round 1: Vision 2 Prompt
-AI Prompt Engineering
-Participants will be given one or more AI-based tasks and must write effective prompts to generate
-accurate, creative, and high-quality outputs. Tasks may include image generation, text generation,
-reasoning, transformation, summarization, and other prompt engineering challenges.
+
+Round 1: Vision 2 Prompt - AI Prompt Engineering
+Participants will be given one or more AI-based tasks and must write effective prompts to generate accurate, creative, and high-quality outputs.
+Tasks may include image generation, text generation, reasoning, transformation, summarization, and other prompt engineering challenges.
+
 Rules
-• Individual participation only.
-• A common task or scenario will be provided to all participants.
-• Participants may use any prompt engineering technique to improve their prompts.
-• Participants may refine their prompts multiple times within the allotted time.
-• Manual editing of the AI-generated output is not allowed unless specified by the organizers.
-• The final prompt and AI-generated output must be submitted before the deadline.
+- Individual participation only.
+- A common task or scenario will be provided to all participants.
+- Participants may use any prompt engineering technique to improve their prompts.
+- Manual editing of the AI-generated output is not allowed unless specified by the organizers.
+- The final prompt and AI-generated output must be submitted before the deadline.
+
 Evaluation Criteria
-• Prompt Quality & Clarity
-• Creativity & Innovation
-• Accuracy & Relevance
-• Prompt Optimization & Effectiveness
-• Quality of AI-Generated Output
-Competition Details
-• Time Limit: 60 Minutes
-• AI Tools: Any AI tool is allowed
-Round 2: Dream 2 DOM
-AI-Powered Web Development
-Participants will be given a problem statement and must write effective prompts to generate a
-complete, responsive web page using AI.
+- Prompt Quality & Clarity
+- Creativity & Innovation
+- Accuracy & Relevance
+- Prompt Optimization & Effectiveness
+- Quality of AI-Generated Output
+
+Round 2: Dream 2 DOM - AI-Powered Web Development
+Participants will be given a problem statement and must write effective prompts to generate a complete, responsive web page using AI.
+
 Rules
-• Individual participation only.
-• A common problem statement will be provided.
-• Manual coding is strictly prohibited.
-• Participants must generate the website using Bolt.ai (or any AI tool specified by the organizers).
-• Participants may refine their prompts multiple times within the allotted time.
-• The final prompt and generated web page must be submitted before the deadline.
+- Individual participation only.
+- A common problem statement will be provided.
+- Manual coding is strictly prohibited.
+- Participants must generate the website using Bolt.ai or any AI tool specified by the organizers.
+- Participants may refine their prompts multiple times within the allotted time.
+- The final prompt and generated web page must be submitted before the deadline.
+
 Evaluation Criteria
-• Prompt Quality & Clarity
-• UI/UX Design & Creativity
-• Responsive Web Design
-• Functionality & Completeness
-• Adherence to the Given Requirements
-Competition Details
-• Time Limit: 60 Minutes
-• Development Tool: Bolt.ai (or the AI tool specified by the organizers)
+- Prompt Quality & Clarity
+- UI/UX Design & Creativity
+- Responsive Web Design
+- Functionality & Completeness
+- Adherence to the Given Requirements
+
 4. CodeFusion
-Overview
-The Coding Contest (CC) consists of two rounds designed to evaluate participants' theoretical
-knowledge, debugging ability, and programming skills.
-• Total Participants: 30
-• Total Time Slots Allocated: 3
-• Duration of Each Slot: 1 Hour
-Participant Distribution
-To avoid scheduling conflicts with other symposium events, the 30 participants will be divided into two
-batches of 15 participants each.
-Slot 1
-• 15 participants attend the Coding Contest.
-• The remaining 15 participants attend their other registered events.
-Slot 2
-• The remaining 15 participants attend the Coding Contest.
-• Participants from Slot 1 are free to attend their other events.
-This arrangement ensures that participants can take part in multiple symposium events without
-overlap.
-Round 1 – Technical Quiz (Paper & Pen)
-• Mode: Offline (Paper & Pen)
-• Duration: Conducted within each respective 1-hour slot.
-Topics
-Questions will be based on core Computer Science subjects from the Anna University syllabus, including:
-• Programming/Coding Fundamentals
-• Operating Systems (OS)
-• Object-Oriented Software Engineering (OOSE)
-• Database Management Systems (DBMS)
-• Other core Computer Science subjects
-Selection
-Each batch consists of 15 participants. From each batch, the top 7 participants will qualify for Round 2.
-• Slot 1 → 7 Qualified
-• Slot 2 → 7 Qualified
-• Total Qualified for Round 2: 14 Participants
-Round 2 – Coding Challenge (HackerRank)
-• Mode: HackerRank
-• Participants: 14 Qualified Participants
-• Duration: 1 Hour
-Section A – Debugging
-• Participants will be given a program containing errors.
-• They must identify and correct the errors.
-• The debugging code will be available in C, Python, and Java.
-• This section carries comparatively lower weightage than the coding section.
-Section B – Coding
-• Participants will receive a programming problem statement.
-• Sample and hidden test cases will be used for evaluation.
-• Participants must write a correct and efficient solution.
-• The submitted program should pass all test cases.
-• Participants may choose to solve the problem using C, Python, or Java.
-• The coding problems will be of Medium and Hard difficulty levels.
-The coding section will have higher priority in the final evaluation.
-Event Flow
-Slot 1 15 Participants → Round 1 (Technical Quiz) → Top 7 qualify for Round 2
-Slot 2 15 Participants → Round 1 (Technical Quiz) → Top 7 qualify for Round 2
-Final Round 14 Qualified Participants → Round 2 on HackerRank (Debugging + Coding)
-The final winners will be determined based on their overall performance in Round 2, with greater
-emphasis on the coding challenge.
-III. Non-Technical Events
+Mode: Individual
+
+Participation & Identification
+- Participants must report 10 minutes before their allotted slot with a valid Student ID and registration confirmation.
+- Participants without valid identification will not be allowed to participate.
+
+Round 1 - Technical Quiz
+- The quiz will be conducted in paper and pen mode.
+- Participants must bring their own pen and submit their answers within the allotted time.
+
+Round 2 - Coding Challenge
+- The second round will be conducted on HackerRank for the qualified participants.
+- It will consist of debugging and coding challenges using C, Python, or Java.
+
+Use of Systems
+- For Round 2, participants must use only the computer systems provided by the organizers.
+- Personal laptops or other personal systems are strictly not allowed.
+
+Prohibited Resources
+- The use of mobile phones, AI tools, websites, calculators, smart watches, books, notes, or any other external assistance is strictly prohibited in both rounds.
+
+No Malpractice
+- Copying, sharing answers or code, discussing solutions, collaboration, plagiarism, or any form of cheating is strictly prohibited.
+- Any such activity will result in immediate disqualification.
+
+Submission & Time
+- Participants must submit their answer sheet or code before the allotted time ends.
+- Submission time may be considered for tie-breaking.
+
+Tie-Breaking
+Round 1:
+- Higher correct answers
+- Better accuracy
+- Earlier submission
+- Oral tie-break, if required
+
+Round 2:
+- Higher coding score
+- More hidden test cases passed
+- Earlier submission
+- Additional tie-break problem, if required
+
+Discipline & Technical Issues
+- Participants must follow the instructions of the organizers and proctors.
+- Any technical issue during Round 2 must be reported immediately to the proctor.
+- Participants must maintain proper discipline throughout the event.
+
+Final Decision
+- Complaints or result-related queries must be submitted within 30 minutes of the announcement of results.
+- The organizers reserve the right to modify the rules or schedule when necessary, and any changes will be communicated to the participants.
+
+II. Non-Technical Events
+
 1. Fun Feast
-The event consists of 8 fun games.
-• Each game has a time limit of 2 minutes.
-• Participants must follow the game rules and the judges' decisions.
-• The team with the highest overall score will be declared the winner.
+Mode: Team, 2 members
+- The event consists of 8 fun games.
+- Each game has a time limit of 2 minutes.
+- Participants must follow the game rules and the judges' decisions.
+- The team with the highest overall score will be declared the winner.
+
 2. Brain Battle
-Mode: Individual (Team participation is not allowed)
+Mode: Individual
+Team participation is not allowed.
+
 Questions will cover:
-• Current Affairs
-• Cinema
-• General Knowledge
-• Memes
-• Mobile phones, smartwatches, notes, or any other external help are not allowed.
-• A buzzer round will be conducted on a first-come, first-served basis. Each question must be answered
-within 30 seconds.
-• Once an answer is given, it cannot be changed.
-• The Quiz Master's decision is final.
-• In case of a tie, a tie-breaker round will be conducted to decide the winner.
+- Current Affairs
+- Cinema
+- General Knowledge
+- Memes
+
+Rules
+- Mobile phones, smartwatches, notes, or any other external help are not allowed.
+- A buzzer round will be conducted on a first-come, first-served basis.
+- Each question must be answered within 30 seconds.
+- Once an answer is given, it cannot be changed.
+- The Quiz Master's decision is final.
+- In case of a tie, a tie-breaker round will be conducted to decide the winner.
+
 3. Nexus
-• Participants will be shown a set of images.
-• Once the images are displayed, participants can press the buzzer to answer.
-• The first participant to press the buzzer gets the first chance to answer.
-• If the first participant answers incorrectly, the chance will pass to the next participant based on the
-order in which the buzzers were pressed.
-• The team with the highest number of correct answers will be declared the winner.
-• There is no negative marking.
+Mode: Team, 2 members
+- Participants will be shown a set of images.
+- Once the images are displayed, participants can press the buzzer to answer.
+- The first participant to press the buzzer gets the first chance to answer.
+- If the first participant answers incorrectly, the chance will pass to the next participant based on the order in which the buzzers were pressed.
+- The team with the highest number of correct answers will be declared the winner.
+- There is no negative marking.
+
 4. Checkmate Challenge
-• Follow all standard chess rules.
-• White always makes the first move.
-• The touch-move rule applies. If you touch a piece, you must move it (if it is a legal move).
-• Mobile phones, cheating, or any outside assistance are strictly prohibited.
-• The player who checkmates the opponent within one hour will be declared the winner.
-• If neither player achieves checkmate within one hour, the winner will be decided according to the
-tournament rules (for example, based on the board position or by a tie-break method).
-IV. Code of Conduct
-• All participants must carry their college ID cards.
-• The decision of the event coordinators and judges is final.
-• If any malpractices are found, the participant(s) will be disqualified from the event.
+Mode: Individual
+- Follow all standard chess rules.
+- White always makes the first move.
+- The touch-move rule applies. If you touch a piece, you must move it if it is a legal move.
+- Mobile phones, cheating, or any outside assistance are strictly prohibited.
+- The player who checkmates the opponent within one hour will be declared the winner.
+- If neither player achieves checkmate within one hour, the winner will be decided according to the tournament rules, for example based on board position or by a tie-break method.
+
+III. Code of Conduct
+- All participants must carry their college ID cards.
+- The decision of the event coordinators and judges is final.
+- If any malpractices are found, the participant or participants will be disqualified from the event.
+
+TECHNOVANZA '26 - Department of Computer Science and Engineering
