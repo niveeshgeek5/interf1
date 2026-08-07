@@ -634,7 +634,7 @@ export default function App() {
             >
               <div className="coord-role-tag">Principal</div>
               {/* <div className="coord-avatar coord-avatar--principal">V</div> */}
-              <div className="coord-name">Dr. K. Velmurugan</div>
+              <div className="coord-name">Mr.K.Velmurugan</div>
     {/* starting quotes lines */}
       <div className="coord-designation coord-designation--dept">
                 Dept. of Computer Science & Engineering
@@ -660,7 +660,7 @@ export default function App() {
               <div className="hod-glow-ring" />
               <div className="coord-role-tag coord-role-tag--hod">Head of Department</div>
               {/* <div className="coord-avatar coord-avatar--hod">V</div> */}
-              <div className="coord-name coord-name--hod">Dr.T. Vigneswari</div>
+              <div className="coord-name coord-name--hod">Mrs.T. Vigneswari</div>
               <div className="coord-designation coord-designation--dept">
                 Dept. of Computer Science & Engineering
               </div>
@@ -687,7 +687,7 @@ export default function App() {
                 <div className="coord-member">
                   {/* <div className="coord-avatar coord-avatar--sm">M</div> */}
                   <div>
-                    <div className="coord-name">Mr.P.Manikandan</div>
+                    <div className="coord-name">Mr.P.ManikandaPrabhu</div>
                     <div className="coord-designation">Assistant Professor, CSE Department</div>
                   </div>
                 </div>
