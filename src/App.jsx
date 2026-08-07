@@ -21,13 +21,12 @@ const technicalEvents = [
     teaser: "Build a responsive website using HTML, CSS, JavaScript, Bootstrap, or Tailwind CSS within the given time.",
     rules: [
       "Individual participation only.",
-      "Time limit: 40 minutes.",
       "Development tool: Visual Studio Code only.",
       "Mobile phones and AI tools are strictly prohibited.",
       "Browser extensions, templates, pre-built code, and frameworks are not allowed except Bootstrap and Tailwind CSS.",
       "Evaluation is based on creativity, UI/UX, responsiveness, HTML/CSS/JS implementation, code quality, and functionality."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "M.Madhavan - 9600496137"
   },
   {
     num: "02",
@@ -38,15 +37,16 @@ const technicalEvents = [
     teamSize: "Team of 2",
     teaser: "Present a technical topic with a PPT and working prototype/demo after selection by the organizing team.",
     rules: [
-      "Open technical topic of the participants' choice.",
-      "Team participation only: 2 members per team.",
-      "PPT submission is mandatory for screening.",
-      "PPT must be submitted 5 days before the event through the organizer-provided Google Drive link.",
-      "Only teams receiving confirmation email can present on event day.",
-      "Presentation time: 7 minutes; Q&A: 3 minutes.",
-      "A working prototype/model/demo must be presented."
+      "Team: Exactly 2 members per team.",
+      "Domains: AI | ML | Digital Twin Technology | Cyber Security | Cloud & DevOps | IoT & Edge Computing | Blockchain | Full Stack Development | Data Science | Quantum Computing | Open to any other relevant technical domain chosen by the participants.",
+      "Submission & Screening Mandatory Submission: Submit the paper in IEEE format 5 days before the event via the provided Google Drive link for selection.",
+      "Drive link : https://drive.google.com/drive/folders/1WmAYChPlnLMkOuUfAd_x5fItuMN9VG9d?usp=sharing Selection: Only pre-screened teams receiving a confirmation email may present. No late submissions allowed.",
+      "PPT Format (10–12 Slides Only) Title Slide (Team Details & Topic) Problem Statement Abstract Existing System Proposed Solution Content Slides (Methodology, Architecture, Results) Conclusion Prototype & Time Limits Mandatory Prototype: Must bring a working prototype/demo. Teams without a demo face severe mark deductions.",
+      "Time: 7 Mins Presentation + 3 Mins Q&A = 10 Mins Total (Exceeding time reduces marks).",
+      "Evaluation Criteria Problem Statement & Relevance Technical Depth & Innovation Prototype Quality & Execution Presentation Skills & Slide Quality Q&A Response Time Management Key Rules Report 10 minutes before the event.",
+      "Bring PPT & demo backups on a USB drive. Plagiarism results in instant disqualification. Judges' decisions are final."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "K.S.Shanugapriyan - 6379305096"
   },
   {
     num: "03",
@@ -61,11 +61,10 @@ const technicalEvents = [
       "Round 1: Vision 2 Prompt with AI-based tasks.",
       "Participants may refine prompts multiple times within the allotted time.",
       "Manual editing of AI-generated output is not allowed unless specified.",
-      "Round 2: Dream 2 DOM, AI-powered web development.",
+      "Round 2: Dream 2 Dom",
       "Manual coding is strictly prohibited in Round 2.",
-      "Time limit: 60 minutes per round."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "K.Kavinathan - 6379555905"
   },
   {
     num: "04",
@@ -84,7 +83,7 @@ const technicalEvents = [
       "Debugging is available in C, Python, and Java.",
       "Final winners are decided based on Round 2 performance, with more emphasis on coding."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "S.Hari - 9965742543"
   }
 ];
 
@@ -104,7 +103,7 @@ const nonTechnicalEvents = [
       "Judges' decisions must be followed.",
       "The team with the highest overall score will be declared the winner."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "V.GopiHari Krishnan - 9566358019"
   },
   {
     num: "02",
@@ -123,7 +122,7 @@ const nonTechnicalEvents = [
       "Quiz Master's decision is final.",
       "Tie-breaker round will be conducted in case of a tie."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "S.Danush - 6382375303"
   },
   {
     num: "03",
@@ -141,7 +140,7 @@ const nonTechnicalEvents = [
       "The team with the highest number of correct answers wins.",
       "There is no negative marking."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "S.Harini - 8015462876"
   },
   {
     num: "04",
@@ -159,7 +158,7 @@ const nonTechnicalEvents = [
       "The player who checkmates the opponent within one hour wins.",
       "If no checkmate occurs within one hour, winner is decided according to tournament rules."
     ],
-    organiser: "As per official TECHNOVANZA '26 rulebook"
+    organiser: "D.Dhayal - 6374987599"
   }
 ];
 
