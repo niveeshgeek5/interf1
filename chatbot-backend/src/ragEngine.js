@@ -25,6 +25,9 @@ const relatedTerms = new Set([
   'number', 'timing', 'time', 'schedule', 'venue', 'place', 'location',
   'fee', 'fees', 'amount', 'cost', 'ppt', 'paper', 'presentation',
   'prototype', 'quiz', 'coding', 'chess', 'college', 'department',
+  'teammate', 'teamate', 'team', 'duo', 'reservation', 'reserve',
+  'reserved', 'capacity', 'seat', 'duplicate', 'gmail', 'university',
+  'eligible', 'eligibility', 'entry', 'card',
 ]);
 
 const eventNames = [
@@ -92,6 +95,12 @@ const queryExpansions = new Map([
   ['timing', ['time', 'minutes', 'mins']],
   ['schedule', ['time', 'slot', 'report']],
   ['venue', ['college', 'kovilvenni', 'thiruvarur']],
+  ['registration', ['register', 'participant', 'gmail', 'phone']],
+  ['registeration', ['registration', 'register', 'participant']],
+  ['reservation', ['reserve', 'reserved', 'teammate', 'seat']],
+  ['teamate', ['teammate', 'team', 'member']],
+  ['duo', ['team', 'teammate', 'member']],
+  ['capacity', ['seat', 'limit', 'participants', 'teams']],
 ]);
 
 export async function loadKnowledgeBase() {
@@ -288,6 +297,14 @@ function answerDirectly(question, rawText) {
     ].join('\n');
   }
 
+  if (/capacity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
+    return formatCapacityAnswer();
+  }
+
+  if (/register|registration|registeration|reservation|reserve|reserved|team.?mate|teammate|teamate|duo|duplicate|gmail|university|eligible|eligibility|entry card/i.test(lowerQuestion)) {
+    return formatRegistrationAnswer(lowerQuestion);
+  }
+
   const asksForEvents =
     /\bevents?\b/.test(lowerQuestion) ||
     compactQuestion.includes('event') ||
@@ -363,6 +380,14 @@ function answerDirectly(question, rawText) {
       '',
       'Events available: WebNova, TechTalks, Prompt Maestro, CodeFusion, Fun Feast, Brain Battle, Nexus, Checkmate Challenge.',
     ].join('\n');
+  }
+
+  if (/register|registration|registeration|reservation|reserve|seat|team.?mate|teammate|teamate|duo|duplicate|gmail|university|eligible|eligibility|entry card/i.test(lowerQuestion)) {
+    return formatRegistrationAnswer(lowerQuestion);
+  }
+
+  if (/capacity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
+    return formatCapacityAnswer();
   }
 
   if (/code of conduct|conduct|malpractice|discipline|disqualif/.test(lowerQuestion)) {
@@ -528,6 +553,103 @@ function formatEventsAnswer(compactQuestion) {
     'Brain Battle',
     'Nexus',
     'Checkmate Challenge',
+    '',
+    sourceFooter,
+  ].join('\n');
+}
+
+function formatRegistrationAnswer(lowerQuestion) {
+  if (/contact|phone|mobile|number|query|queries|help/i.test(lowerQuestion)) {
+    return formatRegistrationContactsAnswer();
+  }
+
+  if (/team.?mate|teammate|teamate|duo|reservation|reserve|reserved/i.test(lowerQuestion)) {
+    return [
+      "According to the TECHNOVANZA '26 registration rules, TechTalks, Fun Feast, and Nexus are two-member team events.",
+      '',
+      'For a team event:',
+      '- The first member registers with their teammate details.',
+      "- Enter the teammate's full name, register number, Gmail address, and phone number.",
+      "- The teammate's seat is reserved immediately.",
+      '- The teammate must later return using their own details to complete registration.',
+      '- A reserved teammate is not treated as a duplicate.',
+      '- The teammate may choose only the event category still pending for them.',
+      '- A provisional card may be issued first; the final card is issued after full registration is complete.',
+      '',
+      sourceFooter,
+    ].join('\n');
+  }
+
+  if (/eligible|eligibility|8204|other college|other colleges/i.test(lowerQuestion)) {
+    return [
+      "According to the TECHNOVANZA '26 registration rules:",
+      '',
+      '- Registration is only for participants from other colleges.',
+      '- Register numbers starting with 8204 are not eligible.',
+      '- Each participant must register using their University Register Number, Gmail address, and phone number.',
+      '',
+      sourceFooter,
+    ].join('\n');
+  }
+
+  if (/duplicate|once|again|same gmail|same phone|same number/i.test(lowerQuestion)) {
+    return [
+      "According to the TECHNOVANZA '26 registration rules:",
+      '',
+      '- Register only once using your University Register Number, Gmail address, and phone number.',
+      '- Duplicate register numbers, Gmail addresses, or phone numbers are not permitted.',
+      '- A reserved teammate is not treated as a duplicate.',
+      '- Incorrect, false, or duplicate information may lead to cancellation of registration.',
+      '',
+      sourceFooter,
+    ].join('\n');
+  }
+
+  return [
+    "According to the TECHNOVANZA '26 registration rules:",
+    '',
+    '- Each participant must register for exactly one Technical event and one Non-Technical event.',
+    '- Registration is only for participants from other colleges.',
+    '- Register numbers starting with 8204 are not eligible.',
+    '- Register only once using your University Register Number, Gmail address, and phone number.',
+    '- TechTalks, Fun Feast, and Nexus are two-member team events.',
+    '- For team events, both team members must be registered.',
+    '- If the first member registers for a team event, the teammate seat is reserved immediately.',
+    '- The teammate must later complete their own registration and choose the remaining event category.',
+    '- Bring your college ID card and registration entry card on the event day.',
+    '',
+    sourceFooter,
+  ].join('\n');
+}
+
+function formatCapacityAnswer() {
+  return [
+    "According to the TECHNOVANZA '26 registration rules, event capacity is limited:",
+    '',
+    '- WebNova: 30 participants',
+    '- Prompt Maestro: 30 participants',
+    '- CodeFusion: 30 participants',
+    '- TechTalks: 40 participants / 20 teams. The final 5 teams register for TechTalks only.',
+    '- Fun Feast: 50 participants / 25 teams',
+    '- Brain Battle: 20 participants',
+    '- Nexus: 30 participants / 15 teams',
+    '- Checkmate Challenge: 20 participants',
+    '',
+    'Registrations close automatically once an event reaches capacity.',
+    '',
+    sourceFooter,
+  ].join('\n');
+}
+
+function formatRegistrationContactsAnswer() {
+  return [
+    "For TECHNOVANZA '26 registration queries, contact:",
+    '',
+    '- Naveen: +91 9600496137',
+    '- Niveesh: 8637689191',
+    '- Madhavan: +91 9042845757',
+    '- Vicky: +91 8124234995',
+    '- Kavinathan: 6379555905',
     '',
     sourceFooter,
   ].join('\n');
