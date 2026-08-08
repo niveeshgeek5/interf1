@@ -1,142 +1,151 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import fs from "node:fs/promises";
+import path from "node:path";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const unavailableMessage =
-  "I couldn't find that information in the official TECHNOVANZA '26 Rulebook.";
+  "I couldn't find that information in the TECHNOVANZA '26 Official Rulebook.";
 
-let openAIDisabledReason = '';
+const sourceFooter = "Sources\nTECHNOVANZA '26 Official Rulebook";
 
 const stopWords = new Set([
-  'a',
-  'an',
-  'and',
-  'are',
-  'as',
-  'at',
-  'be',
-  'by',
-  'for',
-  'from',
-  'how',
-  'i',
-  'in',
-  'is',
-  'it',
-  'me',
-  'of',
-  'on',
-  'or',
-  'the',
-  'to',
-  'what',
-  'when',
-  'where',
-  'which',
-  'who',
-  'why',
-  'with',
-  'do',
-  'does',
-  'can',
-  'could',
-  'would',
-  'should',
-  'please',
-  'tell',
-  'about',
+  "a",
+  "an",
+  "and",
+  "are",
+  "about",
+  "as",
+  "at",
+  "be",
+  "by",
+  "for",
+  "from",
+  "how",
+  "i",
+  "in",
+  "is",
+  "it",
+  "me",
+  "of",
+  "on",
+  "or",
+  "the",
+  "to",
+  "what",
+  "when",
+  "where",
+  "which",
+  "who",
+  "with",
+  "tell",
+  "please",
+  "can",
+  "could",
+  "would",
+  "do",
+  "does",
+  "did",
+  "my",
+  "your",
+  "you",
+  "we",
+  "they",
+  "this",
+  "that",
 ]);
 
-const eventAliases = {
-  webnova: 'WebNova',
-  web: 'WebNova',
-  frontend: 'WebNova',
-  website: 'WebNova',
-
-  techtalks: 'TechTalks',
-  techtalk: 'TechTalks',
-  techtak: 'TechTalks',
-  techtaks: 'TechTalks',
-  paper: 'TechTalks',
-  presentation: 'TechTalks',
-  ppt: 'TechTalks',
-
-  promptmaestro: 'Prompt Maestro',
-  prompt: 'Prompt Maestro',
-  ai: 'Prompt Maestro',
-
-  codefusion: 'CodeFusion',
-  coding: 'CodeFusion',
-  debugging: 'CodeFusion',
-
-  funfeast: 'Fun Feast',
-  fun: 'Fun Feast',
-  games: 'Fun Feast',
-  game: 'Fun Feast',
-
-  brainbattle: 'Brain Battle',
-  brain: 'Brain Battle',
-  quiz: 'Brain Battle',
-
-  nexus: 'Nexus',
-  image: 'Nexus',
-  connection: 'Nexus',
-
-  checkmate: 'Checkmate Challenge',
-  chess: 'Checkmate Challenge',
-};
-
 const eventNames = [
-  'WebNova',
-  'TechTalks',
-  'Prompt Maestro',
-  'CodeFusion',
-  'Fun Feast',
-  'Brain Battle',
-  'Nexus',
-  'Checkmate Challenge',
+  "WebNova",
+  "TechTalks",
+  "Prompt Maestro",
+  "CodeFusion",
+  "Fun Feast",
+  "Brain Battle",
+  "Nexus",
+  "Checkmate Challenge",
 ];
 
+const eventAliases = {
+  webnova: "WebNova",
+  web: "WebNova",
+  frontend: "WebNova",
+
+  techtalks: "TechTalks",
+  techtalk: "TechTalks",
+  techtak: "TechTalks",
+  techtalkrules: "TechTalks",
+  paper: "TechTalks",
+  presentation: "TechTalks",
+  ppt: "TechTalks",
+
+  prompt: "Prompt Maestro",
+  promptmaestro: "Prompt Maestro",
+  ai: "Prompt Maestro",
+
+  codefusion: "CodeFusion",
+  coding: "CodeFusion",
+  debugging: "CodeFusion",
+  hackerrank: "CodeFusion",
+
+  fun: "Fun Feast",
+  funfeast: "Fun Feast",
+  funfest: "Fun Feast",
+  game: "Fun Feast",
+  games: "Fun Feast",
+
+  brain: "Brain Battle",
+  brainbattle: "Brain Battle",
+  quiz: "Brain Battle",
+
+  nexus: "Nexus",
+  connection: "Nexus",
+  image: "Nexus",
+
+  checkmate: "Checkmate Challenge",
+  chess: "Checkmate Challenge",
+};
+
+let openAIStatus = {
+  enabled: true,
+  lastError: "",
+};
+
 /* =========================================================
-   LOAD KNOWLEDGE BASE
+   LOAD RULEBOOK
 ========================================================= */
 
 export async function loadKnowledgeBase() {
   const pdfPath = path.resolve(
-    process.env.SYMPOSIUM_PDF_PATH || './data/symposium.pdf'
+    process.env.SYMPOSIUM_PDF_PATH || "./data/symposium.pdf"
   );
 
   const textPath = path.resolve(
-    process.env.SYMPOSIUM_TEXT_PATH || './data/symposium-info.txt'
+    process.env.SYMPOSIUM_TEXT_PATH || "./data/symposium-info.txt"
   );
 
-  let rawText = '';
-  let source = '';
+  let rawText = "";
+  let source = "";
 
-  /*
-   * We use the existing symposium-info.txt first.
-   * This keeps the current project working without requiring
-   * pdf-parse if the PDF is not available.
-   */
-
+  // Prefer text file because your project already has it.
   try {
-    rawText = await fs.readFile(textPath, 'utf8');
+    rawText = await fs.readFile(textPath, "utf8");
     source = textPath;
-  } catch (textError) {
+  } catch {
     try {
-      const pdfModule = await import('pdf-parse');
-      const pdfParse = pdfModule.default || pdfModule;
+      // Optional PDF support
+      const pdfParseModule = await import("pdf-parse");
+      const pdfParse =
+        pdfParseModule.default || pdfParseModule;
 
       const pdfBuffer = await fs.readFile(pdfPath);
       const parsed = await pdfParse(pdfBuffer);
 
-      rawText = parsed.text || '';
+      rawText = parsed.text || "";
       source = pdfPath;
-    } catch (pdfError) {
-      console.error('Could not load symposium knowledge base.');
-      console.error(pdfError.message);
-
-      rawText = '';
-      source = 'No symposium knowledge base found.';
+    } catch {
+      rawText = "";
+      source = "No symposium rulebook found.";
     }
   }
 
@@ -144,13 +153,10 @@ export async function loadKnowledgeBase() {
 
   const chunks = chunkText(rawText);
 
-  console.log(`Knowledge base loaded: ${chunks.length} chunks`);
-
   return {
     chunks,
     source,
     rawText,
-    vocabulary: buildVocabulary(chunks),
   };
 }
 
@@ -159,155 +165,140 @@ export async function loadKnowledgeBase() {
 ========================================================= */
 
 export async function answerQuestion(question, knowledgeBase) {
-  const userQuestion = String(question || '').trim();
+  const userQuestion = String(question || "").trim();
 
   if (!userQuestion) {
     return {
-      answer: 'Please ask me something.',
+      answer: "Please ask me something.",
       sources: [],
     };
   }
 
   /*
-   * IMPORTANT:
-   *
-   * We do NOT hardcode answers for:
-   * events
-   * registration
-   * bye
-   * capacity
-   * venue
-   * etc.
-   *
-   * Everything goes through:
-   *
-   * USER
-   *   ↓
-   * RAG SEARCH
-   *   ↓
-   * GPT
-   */
+   IMPORTANT:
 
-  if (!knowledgeBase || !knowledgeBase.chunks?.length) {
-    console.log('⚠️ No RAG context available.');
+   We DO NOT block greetings or general questions.
 
-    const fallbackAnswer = await answerWithOpenAI(
-      userQuestion,
-      '',
-      false
-    );
+   Everything goes to GPT eventually.
 
-    return {
-      answer:
-        fallbackAnswer ||
-        "I'm unable to access the TECHNOVANZA knowledge base right now.",
-      sources: [],
-    };
-  }
+   RAG is only used when relevant rulebook information exists.
+  */
 
-  /* ---------------------------------------------------------
-     STEP 1: Search RAG
-  --------------------------------------------------------- */
-
-  const queryTerms = expandQueryTerms(
+  const rulebookMatches = retrieveRelevantChunks(
     userQuestion,
     knowledgeBase
   );
 
-  const rankedChunks = retrieveRelevantChunks(
-    queryTerms,
-    knowledgeBase
+  const strongMatches = rulebookMatches.filter(
+    (item) => item.score >= 1.5
   );
 
-  const relevantChunks = rankedChunks.filter(
-    (chunk) => chunk.score >= 1.2
-  );
+  let context = "";
 
-  console.log('\n--------------------------------');
-  console.log('USER QUESTION:', userQuestion);
-  console.log('QUERY TERMS:', queryTerms);
-  console.log(
-    'RAG RESULTS:',
-    rankedChunks.map((item) => ({
-      id: item.id,
-      score: item.score,
-    }))
-  );
-  console.log(
-    'RAG MATCH:',
-    relevantChunks.length > 0
-  );
-  console.log('--------------------------------');
+  if (strongMatches.length > 0) {
+    context = strongMatches
+      .slice(0, 5)
+      .map((item) => item.content)
+      .join("\n\n---\n\n");
+  }
 
-  /* ---------------------------------------------------------
-     STEP 2: RAG FOUND
-     
-     Send question + retrieved rulebook context to GPT.
-  --------------------------------------------------------- */
+  /*
+   ========================================================
+   CASE 1
+   RAG FOUND INFORMATION
+   ========================================================
 
-  if (relevantChunks.length > 0) {
-    const context = relevantChunks
-      .map(
-        (chunk) =>
-          `RULEBOOK SECTION ${chunk.id}:\n${chunk.content}`
-      )
-      .join('\n\n');
+   Example:
 
-    const aiAnswer = await answerWithOpenAI(
-      userQuestion,
-      context,
-      true
-    );
+   User:
+   "What are TechTalks rules?"
 
-    if (aiAnswer) {
+   RAG:
+   Finds TechTalks section
+
+   Then:
+
+   Rulebook context + user question
+          ↓
+       OpenAI
+          ↓
+       Answer
+  */
+
+  if (context) {
+    const answer = await askOpenAI({
+      question: userQuestion,
+      rulebookContext: context,
+      useRulebook: true,
+    });
+
+    if (answer) {
       return {
-        answer: aiAnswer,
-        sources: relevantChunks.map((chunk) => ({
-          id: chunk.id,
-          score: chunk.score,
+        answer,
+        sources: strongMatches.map((item) => ({
+          id: item.id,
+          score: item.score,
         })),
       };
     }
 
     /*
-     * If GPT fails, return retrieved rulebook content
-     * instead of a generic "could not generate" message.
-     */
+     If OpenAI fails, return retrieved information
+     instead of saying GPT couldn't answer.
+    */
 
     return {
-      answer: formatRagFallback(relevantChunks),
-      sources: relevantChunks.map((chunk) => ({
-        id: chunk.id,
-        score: chunk.score,
+      answer: formatFallbackRulebookAnswer(strongMatches),
+      sources: strongMatches.map((item) => ({
+        id: item.id,
+        score: item.score,
       })),
     };
   }
 
-  /* ---------------------------------------------------------
-     STEP 3: RAG DID NOT FIND INFORMATION
-     
-     Now send the question directly to GPT.
-  --------------------------------------------------------- */
+  /*
+   ========================================================
+   CASE 2
+   RAG DID NOT FIND INFORMATION
+   ========================================================
 
-  console.log(
-    'No strong RAG match. Sending question to GPT fallback.'
-  );
+   Example:
 
-  const fallbackAnswer = await answerWithOpenAI(
-    userQuestion,
-    '',
-    false
-  );
+   User:
+   "What is Python?"
 
-  if (fallbackAnswer) {
+   RAG:
+   No relevant rulebook information.
+
+   Therefore:
+
+   User question
+        ↓
+      OpenAI
+        ↓
+   Normal GPT answer
+  */
+
+  const generalAnswer = await askOpenAI({
+    question: userQuestion,
+    rulebookContext: "",
+    useRulebook: false,
+  });
+
+  if (generalAnswer) {
     return {
-      answer: fallbackAnswer,
+      answer: generalAnswer,
       sources: [],
     };
   }
 
+  /*
+   Only if OpenAI itself is unavailable.
+  */
+
   return {
-    answer: unavailableMessage,
+    answer:
+      "I'm having trouble connecting to the AI service right now. Please try again.",
     sources: [],
   };
 }
@@ -316,140 +307,118 @@ export async function answerQuestion(question, knowledgeBase) {
    OPENAI
 ========================================================= */
 
-async function answerWithOpenAI(
+async function askOpenAI({
   question,
-  context = '',
-  hasRulebookContext = false
-) {
+  rulebookContext,
+  useRulebook,
+}) {
   const apiKey = process.env.OPENAI_API_KEY;
 
   const model =
-    process.env.OPENAI_MODEL || 'gpt-4o-mini';
-
-  if (openAIDisabledReason) {
-    console.error(
-      'OpenAI disabled:',
-      openAIDisabledReason
-    );
-
-    return '';
-  }
+    process.env.OPENAI_MODEL || "gpt-4o-mini";
 
   if (!apiKey) {
     console.error(
-      '❌ OPENAI_API_KEY is missing from backend environment.'
+      "OPENAI_API_KEY is missing from chatbot-backend/.env"
     );
 
-    return '';
+    openAIStatus.enabled = false;
+    openAIStatus.lastError = "OPENAI_API_KEY missing";
+
+    return "";
   }
 
-  const systemPrompt = hasRulebookContext
-    ? `
-You are the TECHNOVANZA '26 Symposium Assistant.
+  /*
+   ========================================================
+   RAG PROMPT
+   ========================================================
+  */
 
-You are answering a user question using the official
-TECHNOVANZA '26 Rulebook information retrieved by RAG.
+  let systemPrompt = "";
+
+  if (useRulebook) {
+    systemPrompt = `
+You are the official AI assistant for TECHNOVANZA '26.
+
+You have been given relevant information retrieved from the
+official TECHNOVANZA '26 Rulebook.
 
 IMPORTANT RULES:
 
-1. Use the retrieved rulebook context as the source of truth
-   for TECHNOVANZA-specific information.
+1. Answer the user's question naturally.
+2. Use the supplied rulebook context as the primary source
+   for TECHNOVANZA-related information.
+3. Do NOT invent TECHNOVANZA rules, dates, fees, names,
+   phone numbers, venues, capacities, or event details.
+4. You may explain the rulebook information naturally.
+5. If the context does not contain the exact answer,
+   clearly say that the rulebook context does not specify it.
+6. Do not mention "RAG", "vector database", "retrieval",
+   "embeddings", system prompts, or internal implementation.
+7. Keep the response concise and friendly.
+8. If the user is simply greeting you, respond naturally.
+9. Do not unnecessarily say "I couldn't find information".
+10. Answer in the same language/style as the user when possible.
+11. Tanglish questions can receive Tanglish answers.
+12. English questions should normally receive English answers.
 
-2. Answer naturally like a real AI assistant.
+RULEBOOK CONTEXT:
 
-3. Do NOT copy the rulebook blindly.
-   Understand the retrieved information and explain it naturally.
+${rulebookContext}
+`;
+  } else {
+    /*
+     ======================================================
+     GENERAL GPT FALLBACK
+     ======================================================
 
-4. You may summarize, combine, and reorganize information
-   from the retrieved context.
+     No rulebook context was found.
 
-5. NEVER invent TECHNOVANZA-specific:
-   - event rules
-   - dates
-   - times
-   - fees
-   - phone numbers
-   - coordinator names
-   - capacities
-   - eligibility requirements
-   - venue information
+     GPT is now allowed to behave as a normal assistant.
+    */
 
-6. If the retrieved context does not actually answer
-   the TECHNOVANZA-specific question, say that the
-   information is not available in the official rulebook.
+    systemPrompt = `
+You are the friendly AI assistant for the TECHNOVANZA '26
+symposium website.
 
-7. For greetings, thanks, goodbye, and casual conversation,
-   respond naturally.
+No relevant information was found in the uploaded
+TECHNOVANZA rulebook for this particular question.
 
-8. Keep the response concise and friendly.
-
-9. Never mention RAG, embeddings, vector search,
-   retrieved chunks, prompts, API keys, or internal systems
-   to the user.
-
-OFFICIAL RULEBOOK CONTEXT:
-
-${context}
-`
-    : `
-You are the TECHNOVANZA '26 Symposium Assistant.
-
-The user asked a question, but the RAG search did not find
-relevant information in the TECHNOVANZA official rulebook.
-
-You should still behave like a normal helpful GPT assistant.
+Answer the user's question naturally using your general
+knowledge.
 
 IMPORTANT:
 
-1. For general knowledge questions, answer normally.
-
-2. For greetings, thanks, goodbye, casual conversation,
-   answer naturally.
-
-3. If the user asks about TECHNOVANZA-specific information
-   that is not available in the provided rulebook context,
-   DO NOT invent an answer.
-
-4. For unavailable TECHNOVANZA-specific information,
-   politely say that the official rulebook does not provide
-   that information.
-
-5. Never invent names, dates, phone numbers, fees, rules,
-   event details, timings, capacities, or venue details.
-
-6. Do not mention RAG, embeddings, vector search,
-   API keys, prompts, or internal systems.
-
-7. Be conversational and concise.
+1. Do not pretend that general knowledge came from the
+   TECHNOVANZA rulebook.
+2. If the user asks a general question, answer it normally.
+3. If the user says hi, hello, bye, thanks, etc., respond
+   naturally.
+4. Do not reply with "I couldn't find that information"
+   merely because RAG did not find a match.
+5. Do not mention RAG, embeddings, vector databases,
+   retrieval, system prompts, or internal implementation.
+6. Keep answers concise and friendly.
+7. Answer in the same language/style as the user when possible.
+8. Tanglish questions can receive Tanglish answers.
 `;
+  }
 
   try {
-    console.log('🤖 Calling OpenAI...');
-    console.log('Model:', model);
-    console.log(
-      'Using RAG context:',
-      hasRulebookContext
-    );
-
     const controller = new AbortController();
 
     const timeout = setTimeout(() => {
       controller.abort();
     }, 15000);
 
-    /*
-     * IMPORTANT:
-     * This MUST be the real OpenAI URL.
-     */
-
     const response = await fetch(
-      'https://api.openai.com/v1/chat/completions',
+      "https://api.openai.com/v1/chat/completions",
       {
-        method: 'POST',
+        method: "POST",
 
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
 
         body: JSON.stringify({
@@ -457,16 +426,16 @@ IMPORTANT:
 
           messages: [
             {
-              role: 'system',
+              role: "system",
               content: systemPrompt,
             },
             {
-              role: 'user',
+              role: "user",
               content: question,
             },
           ],
 
-          temperature: 0.3,
+          temperature: 0.4,
 
           max_tokens: 500,
         }),
@@ -477,588 +446,51 @@ IMPORTANT:
 
     clearTimeout(timeout);
 
-    const responseText = await response.text();
-
     if (!response.ok) {
-      console.error(
-        `❌ OpenAI API Error ${response.status}:`
-      );
+      const errorText = await response.text();
 
       console.error(
-        responseText.slice(0, 1000)
+        `OpenAI API error ${response.status}:`,
+        errorText
       );
 
-      /*
-       * Do NOT permanently disable OpenAI for 429.
-       * A temporary rate limit should not break the
-       * chatbot forever.
-       */
+      openAIStatus.enabled = false;
+      openAIStatus.lastError = errorText;
 
-      if (response.status === 401) {
-        openAIDisabledReason =
-          'Invalid OpenAI API key';
-
-        console.error(
-          '❌ Your OpenAI API key is invalid.'
-        );
-      }
-
-      if (response.status === 403) {
-        console.error(
-          '❌ OpenAI API access was rejected.'
-        );
-      }
-
-      if (response.status === 429) {
-        console.error(
-          '❌ OpenAI rate limit / quota problem.'
-        );
-      }
-
-      return '';
+      return "";
     }
 
-    let data;
-
-    try {
-      data = JSON.parse(responseText);
-    } catch (error) {
-      console.error(
-        '❌ OpenAI returned invalid JSON.'
-      );
-
-      return '';
-    }
+    const data = await response.json();
 
     const answer =
       data?.choices?.[0]?.message?.content?.trim();
 
     if (!answer) {
       console.error(
-        '❌ OpenAI returned an empty response.'
+        "OpenAI returned an empty response."
       );
 
-      return '';
+      return "";
     }
 
-    console.log('✅ GPT response received.');
+    openAIStatus.enabled = true;
+    openAIStatus.lastError = "";
 
     return answer;
   } catch (error) {
-    if (error.name === 'AbortError') {
-      console.error(
-        '❌ OpenAI request timed out.'
-      );
-    } else {
-      console.error(
-        '❌ OpenAI request failed:',
-        error.message
-      );
-    }
-
-    return '';
-  }
-}
-
-/* =========================================================
-   RAG SEARCH
-========================================================= */
-
-function retrieveRelevantChunks(
-  queryTerms,
-  knowledgeBase
-) {
-  return knowledgeBase.chunks
-    .map((chunk) => ({
-      ...chunk,
-      score: scoreChunk(
-        queryTerms,
-        chunk
-      ),
-    }))
-    .filter(
-      (chunk) => chunk.score > 0
-    )
-    .sort(
-      (a, b) => b.score - a.score
-    )
-    .slice(0, 5);
-}
-
-function scoreChunk(
-  queryTerms,
-  chunk
-) {
-  const chunkTerms = new Set(
-    chunk.terms
-  );
-
-  let score = 0;
-
-  for (const term of queryTerms) {
-    if (chunkTerms.has(term)) {
-      /*
-       * Important terms receive more weight.
-       */
-
-      if (term.length >= 7) {
-        score += 2.5;
-      } else if (term.length >= 5) {
-        score += 1.5;
-      } else {
-        score += 0.75;
-      }
-    } else if (
-      term.length >= 4 &&
-      hasFuzzyTerm(
-        term,
-        chunkTerms
-      )
-    ) {
-      score += 0.5;
-    }
-  }
-
-  return score;
-}
-
-/* =========================================================
-   QUERY PROCESSING
-========================================================= */
-
-function expandQueryTerms(
-  question,
-  knowledgeBase
-) {
-  const terms = tokenize(question);
-
-  const expanded = new Set(
-    terms
-  );
-
-  const compactQuestion =
-    String(question)
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '');
-
-  /*
-   * Event detection.
-   */
-
-  for (const [
-    alias,
-    eventName,
-  ] of Object.entries(eventAliases)) {
-    if (
-      compactQuestion.includes(alias)
-    ) {
-      tokenize(eventName).forEach(
-        (term) =>
-          expanded.add(term)
-      );
-    }
-  }
-
-  /*
-   * Event names directly mentioned.
-   */
-
-  for (const eventName of eventNames) {
-    const compactName =
-      eventName
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, '');
-
-    if (
-      compactQuestion.includes(
-        compactName
-      )
-    ) {
-      tokenize(eventName).forEach(
-        (term) =>
-          expanded.add(term)
-      );
-    }
-  }
-
-  /*
-   * Correct simple spelling mistakes
-   * using the rulebook vocabulary.
-   */
-
-  const vocabulary =
-    knowledgeBase.vocabulary || [];
-
-  for (const term of terms) {
-    const corrected =
-      correctTermFromVocabulary(
-        term,
-        vocabulary
-      );
-
-    if (
-      corrected &&
-      corrected !== term
-    ) {
-      expanded.add(corrected);
-    }
-  }
-
-  return [...expanded];
-}
-
-/* =========================================================
-   TEXT CHUNKING
-========================================================= */
-
-function chunkText(text) {
-  if (!text) return [];
-
-  /*
-   * First split by paragraphs.
-   */
-
-  let sections = text
-    .split(/\n\s*\n/)
-    .map(
-      (section) =>
-        section.trim()
-    )
-    .filter(Boolean);
-
-  /*
-   * If PDF/text extraction produced
-   * very large paragraphs, split them.
-   */
-
-  const chunks = [];
-
-  let current = '';
-
-  for (const section of sections) {
-    const candidate =
-      current
-        ? `${current}\n${section}`
-        : section;
-
-    if (
-      candidate.length > 1200 &&
-      current
-    ) {
-      chunks.push(
-        current.trim()
-      );
-
-      current = section;
-    } else {
-      current = candidate;
-    }
-  }
-
-  if (current) {
-    chunks.push(
-      current.trim()
-    );
-  }
-
-  /*
-   * If there are no paragraph boundaries,
-   * split by words.
-   */
-
-  if (chunks.length === 0) {
-    const words =
-      text
-        .split(/\s+/)
-        .filter(Boolean);
-
-    for (
-      let i = 0;
-      i < words.length;
-      i += 180
-    ) {
-      chunks.push(
-        words
-          .slice(
-            i,
-            i + 220
-          )
-          .join(' ')
-      );
-    }
-  }
-
-  return chunks.map(
-    (content, index) => ({
-      id: index + 1,
-
-      content,
-
-      terms: tokenize(
-        content
-      ),
-    })
-  );
-}
-
-/* =========================================================
-   VOCABULARY
-========================================================= */
-
-function buildVocabulary(
-  chunks
-) {
-  const vocabulary =
-    new Map();
-
-  for (const chunk of chunks) {
-    for (const term of chunk.terms) {
-      if (term.length < 3)
-        continue;
-
-      vocabulary.set(
-        term,
-        (vocabulary.get(term) || 0) +
-          1
-      );
-    }
-  }
-
-  return [...vocabulary.entries()]
-    .sort(
-      (a, b) =>
-        b[1] - a[1]
-    )
-    .map(
-      ([term]) => term
-    );
-}
-
-/* =========================================================
-   TOKENIZER
-========================================================= */
-
-function tokenize(value) {
-  return String(value)
-    .toLowerCase()
-    .replace(
-      /[^a-z0-9@+.]+/g,
-      ' '
-    )
-    .split(/\s+/)
-    .filter(
-      (term) =>
-        term.length > 1 &&
-        !stopWords.has(term)
-    );
-}
-
-/* =========================================================
-   SPELLING CORRECTION
-========================================================= */
-
-function correctTermFromVocabulary(
-  term,
-  vocabulary
-) {
-  if (
-    term.length < 4 ||
-    !vocabulary.length
-  ) {
-    return '';
-  }
-
-  if (
-    vocabulary.includes(term)
-  ) {
-    return term;
-  }
-
-  let best = {
-    term: '',
-    score: 0,
-  };
-
-  const candidates =
-    vocabulary.filter(
-      (candidate) =>
-        Math.abs(
-          candidate.length -
-            term.length
-        ) <= 2
+    console.error(
+      "OpenAI request failed:",
+      error?.name === "AbortError"
+        ? "Request timed out"
+        : error?.message
     );
 
-  for (
-    const candidate of candidates
-  ) {
-    const score =
-      similarity(
-        term,
-        candidate
-      );
+    openAIStatus.enabled = false;
+    openAIStatus.lastError =
+      error?.message || "Unknown error";
 
-    if (
-      score > best.score
-    ) {
-      best = {
-        term: candidate,
-        score,
-      };
-    }
+    return "";
   }
-
-  return best.score >= 0.78
-    ? best.term
-    : '';
-}
-
-/* =========================================================
-   FUZZY MATCH
-========================================================= */
-
-function hasFuzzyTerm(
-  term,
-  chunkTerms
-) {
-  for (
-    const chunkTerm of chunkTerms
-  ) {
-    if (
-      Math.abs(
-        chunkTerm.length -
-          term.length
-      ) > 2
-    ) {
-      continue;
-    }
-
-    if (
-      chunkTerm.includes(term) ||
-      term.includes(chunkTerm)
-    ) {
-      return true;
-    }
-
-    if (
-      similarity(
-        term,
-        chunkTerm
-      ) >= 0.82
-    ) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-/* =========================================================
-   SIMILARITY
-========================================================= */
-
-function similarity(a, b) {
-  if (!a || !b)
-    return 0;
-
-  if (a === b)
-    return 1;
-
-  const maxLength =
-    Math.max(
-      a.length,
-      b.length
-    );
-
-  return (
-    (maxLength -
-      levenshteinDistance(
-        a,
-        b
-      )) /
-    maxLength
-  );
-}
-
-function levenshteinDistance(
-  a,
-  b
-) {
-  const previous =
-    Array.from(
-      {
-        length:
-          b.length + 1,
-      },
-      (_, index) =>
-        index
-    );
-
-  for (
-    let i = 1;
-    i <= a.length;
-    i++
-  ) {
-    let left = i;
-    let diagonal = i - 1;
-
-    for (
-      let j = 1;
-      j <= b.length;
-      j++
-    ) {
-      const up =
-        previous[j] + 1;
-
-      const insert =
-        left + 1;
-
-      const replace =
-        diagonal +
-        (a[i - 1] ===
-        b[j - 1]
-          ? 0
-          : 1);
-
-      diagonal =
-        previous[j];
-
-      left = Math.min(
-        up,
-        insert,
-        replace
-      );
-
-      previous[j] =
-        left;
-    }
-  }
-
-  return previous[
-    b.length
-  ];
-}
-
-/* =========================================================
-   RAG FALLBACK
-========================================================= */
-
-function formatRagFallback(
-  chunks
-) {
-  const content =
-    chunks
-      .slice(0, 2)
-      .map(
-        (chunk) =>
-          chunk.content
-      )
-      .join('\n\n');
-
-  if (!content) {
-    return unavailableMessage;
-  }
-
-  return `According to the official TECHNOVANZA '26 Rulebook:\n\n${content}`;
 }
 
 /* =========================================================
@@ -1066,15 +498,302 @@ function formatRagFallback(
 ========================================================= */
 
 function normalizeText(text) {
-  return String(text || '')
-    .replace(/\r/g, '\n')
-    .replace(
-      /[ \t]+/g,
-      ' '
-    )
-    .replace(
-      /\n{3,}/g,
-      '\n\n'
-    )
+  return String(text || "")
+    .replace(/\r/g, "\n")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
+}
+
+/* =========================================================
+   CHUNKING
+========================================================= */
+
+function chunkText(text) {
+  if (!text) return [];
+
+  const paragraphs = text
+    .split(/\n\s*\n/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const chunks = [];
+
+  let current = "";
+
+  for (const paragraph of paragraphs) {
+    if (
+      current &&
+      current.length + paragraph.length > 1000
+    ) {
+      chunks.push(current.trim());
+      current = paragraph;
+    } else {
+      current +=
+        current.length > 0
+          ? `\n\n${paragraph}`
+          : paragraph;
+    }
+  }
+
+  if (current) {
+    chunks.push(current.trim());
+  }
+
+  /*
+   If paragraph extraction produced very few chunks,
+   split the whole document into smaller chunks.
+  */
+
+  if (chunks.length < 3) {
+    const words = text.split(/\s+/);
+
+    const fallbackChunks = [];
+
+    for (let i = 0; i < words.length; i += 180) {
+      fallbackChunks.push(
+        words.slice(i, i + 220).join(" ")
+      );
+    }
+
+    return fallbackChunks.map((content, index) => ({
+      id: index + 1,
+      content,
+      terms: tokenize(content),
+    }));
+  }
+
+  return chunks.map((content, index) => ({
+    id: index + 1,
+    content,
+    terms: tokenize(content),
+  }));
+}
+
+/* =========================================================
+   TOKENIZATION
+========================================================= */
+
+function tokenize(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9@.+]+/g, " ")
+    .split(/\s+/)
+    .filter(
+      (word) =>
+        word.length > 2 &&
+        !stopWords.has(word)
+    );
+}
+
+/* =========================================================
+   RAG RETRIEVAL
+========================================================= */
+
+function retrieveRelevantChunks(question, knowledgeBase) {
+  const queryTerms = tokenize(question);
+
+  if (!queryTerms.length) {
+    return [];
+  }
+
+  const resolvedEvent = resolveEvent(question);
+
+  if (resolvedEvent) {
+    queryTerms.push(
+      ...tokenize(resolvedEvent)
+    );
+  }
+
+  return knowledgeBase.chunks
+    .map((chunk) => ({
+      ...chunk,
+      score: scoreChunk(queryTerms, chunk),
+    }))
+    .filter((chunk) => chunk.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
+}
+
+/* =========================================================
+   CHUNK SCORING
+========================================================= */
+
+function scoreChunk(queryTerms, chunk) {
+  const chunkTerms = new Set(chunk.terms);
+
+  let score = 0;
+
+  for (const term of queryTerms) {
+    if (chunkTerms.has(term)) {
+      /*
+       Longer terms get more weight.
+      */
+
+      score +=
+        term.length >= 7
+          ? 2
+          : term.length >= 5
+          ? 1.5
+          : 1;
+
+      continue;
+    }
+
+    /*
+     Small fuzzy matching.
+     */
+
+    if (term.length >= 5) {
+      for (const chunkTerm of chunkTerms) {
+        if (
+          Math.abs(
+            chunkTerm.length - term.length
+          ) > 2
+        ) {
+          continue;
+        }
+
+        if (
+          similarity(term, chunkTerm) >= 0.8
+        ) {
+          score += 0.7;
+          break;
+        }
+      }
+    }
+  }
+
+  /*
+   Event-specific boost.
+  */
+
+  const chunkTextLower =
+    chunk.content.toLowerCase();
+
+  const event = resolveEvent(
+    queryTerms.join(" ")
+  );
+
+  if (
+    event &&
+    chunkTextLower.includes(
+      event.toLowerCase()
+    )
+  ) {
+    score += 3;
+  }
+
+  return score;
+}
+
+/* =========================================================
+   EVENT RESOLUTION
+========================================================= */
+
+function resolveEvent(question) {
+  const text = String(question)
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+  for (const event of eventNames) {
+    const compact = event
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "");
+
+    if (text.includes(compact)) {
+      return event;
+    }
+  }
+
+  for (const [alias, event] of Object.entries(
+    eventAliases
+  )) {
+    if (text.includes(alias)) {
+      return event;
+    }
+  }
+
+  return "";
+}
+
+/* =========================================================
+   FALLBACK RULEBOOK ANSWER
+========================================================= */
+
+function formatFallbackRulebookAnswer(chunks) {
+  const best = chunks
+    .slice(0, 2)
+    .map((item) => item.content)
+    .join("\n\n");
+
+  if (!best) {
+    return unavailableMessage;
+  }
+
+  const shortened =
+    best.length > 1800
+      ? `${best.slice(0, 1800)}...`
+      : best;
+
+  return [
+    shortened,
+    "",
+    sourceFooter,
+  ].join("\n");
+}
+
+/* =========================================================
+   SIMILARITY
+========================================================= */
+
+function similarity(a, b) {
+  if (!a || !b) return 0;
+
+  if (a === b) return 1;
+
+  const maxLength = Math.max(
+    a.length,
+    b.length
+  );
+
+  return (
+    (maxLength -
+      levenshteinDistance(a, b)) /
+    maxLength
+  );
+}
+
+function levenshteinDistance(a, b) {
+  const previous = Array.from(
+    { length: b.length + 1 },
+    (_, index) => index
+  );
+
+  for (let i = 1; i <= a.length; i++) {
+    let left = i;
+    let diagonal = i - 1;
+
+    for (let j = 1; j <= b.length; j++) {
+      const up = previous[j] + 1;
+
+      const insert = left + 1;
+
+      const replace =
+        diagonal +
+        (a[i - 1] === b[j - 1] ? 0 : 1);
+
+      diagonal = previous[j];
+
+      left = Math.min(
+        up,
+        insert,
+        replace
+      );
+
+      previous[j] = left;
+    }
+  }
+
+  return previous[b.length];
 }
