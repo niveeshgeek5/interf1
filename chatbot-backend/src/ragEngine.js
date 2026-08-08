@@ -101,6 +101,10 @@ const queryExpansions = new Map([
   ['teamate', ['teammate', 'team', 'member']],
   ['duo', ['team', 'teammate', 'member']],
   ['capacity', ['seat', 'limit', 'participants', 'teams']],
+  ['capcity', ['capacity', 'seat', 'limit', 'participants', 'teams']],
+  ['contct', ['contact', 'phone', 'mobile', 'number']],
+  ['cntact', ['contact', 'phone', 'mobile', 'number']],
+  ['formt', ['format', 'ppt', 'slides']],
 ]);
 
 export async function loadKnowledgeBase() {
@@ -126,7 +130,7 @@ export async function loadKnowledgeBase() {
   }
 
   const chunks = chunkText(normalizeText(rawText));
-  return { chunks, source, rawText: normalizeText(rawText) };
+  return { chunks, source, rawText: normalizeText(rawText), vocabulary: buildVocabulary(chunks) };
 }
 
 export async function loadKnowledgeBaseFromPdfFirst() {
@@ -152,7 +156,7 @@ export async function loadKnowledgeBaseFromPdfFirst() {
   }
 
   const chunks = chunkText(normalizeText(rawText));
-  return { chunks, source, rawText: normalizeText(rawText) };
+  return { chunks, source, rawText: normalizeText(rawText), vocabulary: buildVocabulary(chunks) };
 }
 
 export async function answerQuestion(question, knowledgeBase) {
@@ -168,7 +172,7 @@ export async function answerQuestion(question, knowledgeBase) {
     };
   }
 
-  const queryTerms = expandQueryTerms(question);
+  const queryTerms = expandQueryTerms(question, knowledgeBase);
   if (!queryTerms.length) {
     return { answer: unavailableMessage, sources: [] };
   }
@@ -205,7 +209,7 @@ export async function answerQuestion(question, knowledgeBase) {
   const aiAnswer = await answerWithOpenAI(question, context);
 
   return {
-    answer: aiAnswer || formatAnswer(rankedChunks),
+    answer: aiAnswer || formatAnswer(rankedChunks, queryTerms),
     sources: rankedChunks.map((chunk) => ({ id: chunk.id, score: chunk.score })),
   };
 }
@@ -262,6 +266,21 @@ function chunkText(text) {
   }));
 }
 
+function buildVocabulary(chunks) {
+  const vocabulary = new Map();
+
+  for (const chunk of chunks) {
+    for (const term of chunk.terms) {
+      if (term.length < 3) continue;
+      vocabulary.set(term, (vocabulary.get(term) || 0) + 1);
+    }
+  }
+
+  return [...vocabulary.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([term]) => term);
+}
+
 function answerDirectly(question, rawText) {
   const lowerQuestion = question.toLowerCase();
   const compactQuestion = lowerQuestion.replace(/[^a-z0-9]/g, '');
@@ -297,11 +316,11 @@ function answerDirectly(question, rawText) {
     ].join('\n');
   }
 
-  if (/capacity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
+  if (/capacity|capcity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
     return formatCapacityAnswer();
   }
 
-  if (/register|registration|registeration|reservation|reserve|reserved|team.?mate|teammate|teamate|duo|duplicate|gmail|university|eligible|eligibility|entry card/i.test(lowerQuestion)) {
+  if (/register|registration|registeration|reservation|reserve|reserved|team.?mate|teammate|teamate|duo|duplicate|gmail|university|eligible|eligibility|entry card|contct|cntact/i.test(lowerQuestion)) {
     return formatRegistrationAnswer(lowerQuestion);
   }
 
@@ -386,7 +405,7 @@ function answerDirectly(question, rawText) {
     return formatRegistrationAnswer(lowerQuestion);
   }
 
-  if (/capacity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
+  if (/capacity|capcity|limit|seat|seats|filled|full|available/i.test(lowerQuestion)) {
     return formatCapacityAnswer();
   }
 
@@ -559,7 +578,7 @@ function formatEventsAnswer(compactQuestion) {
 }
 
 function formatRegistrationAnswer(lowerQuestion) {
-  if (/contact|phone|mobile|number|query|queries|help/i.test(lowerQuestion)) {
+  if (/contact|contct|cntact|phone|mobile|number|query|queries|help/i.test(lowerQuestion)) {
     return formatRegistrationContactsAnswer();
   }
 
@@ -803,17 +822,27 @@ function asksForInternalDetails(question) {
   return /system prompt|internal prompt|developer message|embedding|vector database|rag details|knowledge base file|instructions/i.test(String(question));
 }
 
-function expandQueryTerms(value) {
+function expandQueryTerms(value, knowledgeBase = {}) {
   const terms = tokenize(value);
   const expanded = new Set(terms);
   const compactValue = String(value).toLowerCase().replace(/[^a-z0-9]/g, '');
   const requestedEvent = resolveEventName(value);
+  const vocabulary = knowledgeBase.vocabulary || [];
 
   if (requestedEvent) {
     tokenize(requestedEvent).forEach((term) => expanded.add(term));
   }
 
   for (const term of terms) {
+    const correctedTerm = correctTermFromVocabulary(term, vocabulary);
+    if (correctedTerm && correctedTerm !== term) {
+      expanded.add(correctedTerm);
+      const correctedExpansion = queryExpansions.get(correctedTerm);
+      if (correctedExpansion) {
+        correctedExpansion.forEach((expandedTerm) => expanded.add(expandedTerm));
+      }
+    }
+
     const directExpansion = queryExpansions.get(term);
     if (directExpansion) {
       directExpansion.forEach((expandedTerm) => expanded.add(expandedTerm));
@@ -828,6 +857,24 @@ function expandQueryTerms(value) {
   }
 
   return [...expanded];
+}
+
+function correctTermFromVocabulary(term, vocabulary) {
+  if (term.length < 4 || !vocabulary.length) return '';
+  if (vocabulary.includes(term)) return term;
+
+  let bestMatch = { term: '', score: 0 };
+  const candidates = vocabulary.filter((candidate) =>
+    Math.abs(candidate.length - term.length) <= 3 &&
+    candidate[0] === term[0]
+  );
+
+  for (const candidate of candidates.slice(0, 800)) {
+    const score = similarity(term, candidate);
+    if (score > bestMatch.score) bestMatch = { term: candidate, score };
+  }
+
+  return bestMatch.score >= 0.72 ? bestMatch.term : '';
 }
 
 function scoreChunk(queryTerms, chunk) {
@@ -846,6 +893,7 @@ function isTechnovanzaRelated(question, queryTerms, rankedChunks) {
   const compactQuestion = String(question).toLowerCase().replace(/[^a-z0-9]/g, '');
   if (/technovanza|symposium|aamec/.test(compactQuestion)) return true;
   if (resolveEventName(question)) return true;
+  if (rankedChunks[0]?.score >= 1.5) return true;
   if (rankedChunks[0]?.score >= 2 && queryTerms.length === 1) return true;
 
   return queryTerms.some((term) => {
@@ -927,11 +975,58 @@ function levenshteinDistance(a, b) {
   return previous[b.length];
 }
 
-function formatAnswer(chunks) {
+function formatAnswer(chunks, queryTerms = []) {
+  const lines = [];
+
+  for (const chunk of chunks) {
+    const relevantLines = extractRelevantLines(chunk.content, queryTerms);
+    if (relevantLines.length) {
+      lines.push(...relevantLines);
+    }
+  }
+
+  const uniqueLines = [...new Set(lines)].slice(0, 10);
+  if (uniqueLines.length) {
+    return [
+      "According to the TECHNOVANZA knowledge base:",
+      '',
+      ...uniqueLines.map((line) => line.startsWith('- ') ? line : `- ${line}`),
+      '',
+      sourceFooter,
+    ].join('\n');
+  }
+
   const answerText = chunks
     .map((chunk) => chunk.content)
     .join('\n\n')
     .trim();
 
-  return answerText ? trimAtBoundary(answerText, 1800) : unavailableMessage;
+  return answerText ? `${trimAtBoundary(answerText, 1800)}\n\n${sourceFooter}` : unavailableMessage;
+}
+
+function extractRelevantLines(content, queryTerms) {
+  const lines = content
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 2);
+
+  return lines
+    .map((line) => ({ line, score: scoreText(queryTerms, line) }))
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map((item) => item.line.replace(/^-+\s*/, '').trim());
+}
+
+function scoreText(queryTerms, text) {
+  const textTerms = tokenize(text);
+  const textTermSet = new Set(textTerms);
+  let score = 0;
+
+  for (const term of queryTerms) {
+    if (textTermSet.has(term)) score += term.length >= 6 ? 2 : 1;
+    else if (term.length >= 4 && hasFuzzyTerm(term, textTermSet)) score += 0.75;
+  }
+
+  return score;
 }
