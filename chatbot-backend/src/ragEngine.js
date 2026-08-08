@@ -1,4 +1,3 @@
-```js
 import fs from "node:fs/promises";
 import path from "node:path";
 import dotenv from "dotenv";
@@ -881,4 +880,5 @@ function isInternalQuestion(question) {
     question
   );
 }
-```
+
+
