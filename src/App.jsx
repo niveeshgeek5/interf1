@@ -396,8 +396,8 @@ export default function App() {
           </a>
           <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
             <li><a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="#technical" onClick={() => setMobileMenuOpen(false)}>Technical</a></li>
-            <li><a href="#nontechnical" onClick={() => setMobileMenuOpen(false)}>Non-Technical</a></li>
+            <li><a href="#technical" onClick={() => setMobileMenuOpen(false)}>Events</a></li>
+            <li><a href="#register" onClick={() => setMobileMenuOpen(false)}>Registration</a></li>
             <li><a href="#about" onClick={() => setMobileMenuOpen(false)}>About</a></li>
             <li><a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
           </ul>
@@ -459,7 +459,7 @@ export default function App() {
                   <text x="250" y="160" fill="#FEE2E2">build_future(self):</text>
                 </g>
                 <text x="235" y="180" fill="#EF4444">return</text>
-                <text x="285" y="180" fill="#10B981">"VICTORY 2026"</text>
+                <text x="285" y="180" fill="#10B981">"Technovanza-26"</text>
                 <rect x="390" y="170" width="7" height="12" fill="#EF4444" className="anim-cursor" />
               </g>
               <rect x="190" y="195" width="320" height="35" fill="#000000" opacity="0.7" />
@@ -568,9 +568,11 @@ export default function App() {
         viewport={{ once: true }}
         style={{ textAlign: 'center', marginTop: '40px', marginBottom: '80px', position: 'relative', zIndex: 2 }}
       >
+        <section className="section" id="register">
         <a href="https://technovanza-2026-cex6.onrender.com/registration" className="btn" style={{ padding: '14px 32px', fontSize: '16px' }}>
           Register Now
         </a>
+        </section>
       </motion.div>
 
       {/* About Section */}
@@ -794,7 +796,7 @@ export default function App() {
 
             <a href="tel:+916379555905" className="reg-contact-item">
               <span className="reg-contact-name">K.Kavinathan</span>
-              <span className="reg-help-title">379555905</span>
+              <span className="reg-help-title">6379555905</span>
             </a>
 
             <a href="tel:+918072022294" className="reg-contact-item">
